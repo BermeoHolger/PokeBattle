@@ -1,0 +1,23 @@
+
+.header {
+    background-color: #07193b;
+    width: 100vw;
+    height: 6vw;
+    display: flex;
+    justify-content: center;
+    gap: 2vw;
+    position: fixed;
+    top: 0;
+
+}
+.titulo{
+    font-size: 4vw;
+    color: rgb(99, 154, 173);
+    font-weight: 600;
+}
+.logo{
+    margin-top: 0.5vw;
+    cursor: pointer;
+    width: 5vw;
+    height: 5vw;
+}
