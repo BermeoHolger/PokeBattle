@@ -2,14 +2,15 @@ import { useState } from 'react'
 import HeaderComponent from './components/HeaderComponent.jsx'
 import AppRoutes from './routes/index.jsx';
 
+import { getEstadisticas } from './api/api.js';
+
 const App = () => {
   const [response, setResponse] = useState(null);
 
   const handleClick = async () => {
     try {
-      
-      const res = await fetch(AppRoutes.estadisticas);
-      setResponse({ data: res?.data, error: false });
+      const data = await getEstadisticas();
+      setResponse({data, error: false });
     } catch (e) {
       const errorMsg = e.response?.data ?? { error: 'Unknown error'};
       setResponse({ data: errorMsg, error: true });
