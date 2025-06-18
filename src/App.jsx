@@ -7,11 +7,12 @@ import "./index.css";
 import GetEstadisticas from './pages/GetEstadisticas.jsx';
 
 const App = () => {    
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   return (
     <>
       <HeaderComponent/> 
-      <AppRoutes>
-        <NavBarComponent/>   
+      <AppRoutes isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}>
+        <NavBarComponent isLoggedIn={isLoggedIn}/>   
       </AppRoutes>        
       <FooterComponent/>
    </>
