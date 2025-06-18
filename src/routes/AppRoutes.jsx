@@ -6,15 +6,17 @@ import { AltaDeunMazo } from "../pages/AltaDeunMazo";
 import { Jugar } from "../pages/Jugar";
 import { MisMazos } from "../pages/MisMazos";
 import GetEstadisticas from "../pages/GetEstadisticas";
+import { useState } from "react";
 
-const AppRoutes = ({children}) => {
+
+const AppRoutes = ({children, isLoggedIn, setIsLoggedIn}) => {
   return (
     <BrowserRouter>
         {children}
       <Routes>
-        <Route path ="/" element ={<GetEstadisticas/>} />
+        <Route path ="/" element ={<GetEstadisticas isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>} />
         <Route path ="registro" element ={<RegistroPage/>} />
-        <Route path ="login" element ={<Login/>} />
+        <Route path ="login" element ={<Login setIsLoggedIn={setIsLoggedIn}/>} />
         <Route path ="editarusuario" element ={<EditarUsuario/>} />
         <Route path ="alta" element ={<AltaDeunMazo/>} />
         <Route path ="jugar" element ={<Jugar/>} />
