@@ -1,40 +1,18 @@
 import { useState } from 'react'
+import AppRoutes from './routes/AppRoutes.jsx';
+import FooterComponent  from './components/FooterComponent.jsx';
 import HeaderComponent from './components/HeaderComponent.jsx'
-import AppRoutes from './routes/index.jsx';
+import {NavBarComponent} from './components/NavBarComponent.jsx';
+import "./index.css";
 
-import { getEstadisticas } from './api/api.js';
-
-const App = () => {
-  const [response, setResponse] = useState(null);
-
-  const handleClick = async () => {
-    try {
-      const data = await getEstadisticas();
-      setResponse({data, error: false });
-    } catch (e) {
-      const errorMsg = e.response?.data ?? { error: 'Unknown error'};
-      setResponse({ data: errorMsg, error: true });
-    }
-  };
-
+const App = () => {    
   return (
     <>
-
       <HeaderComponent/>
-      <div className='estadisticas'>
-        <button className="btn btn-primary" onClick={handleClick}>Try Out </button>
-        {response && (
-          <>
-            <h5>Response:</h5>
-            <pre className={`p-3 rounded ${response.error ? 'bg-danger-subtle' : 'bg-success-subtle'}`}>
-              {JSON.stringify(response.data, null, 2)}
-            </pre>
-          </>
-        )}
-      </div>
-      
+      <NavBarComponent/>
+      <AppRoutes/>            
+      <FooterComponent/>
    </>
   )
 }
-
 export default App

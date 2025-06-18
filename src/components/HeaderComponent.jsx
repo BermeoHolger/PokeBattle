@@ -7,7 +7,7 @@ const HeaderComponent = () => {
             <a href="/">
                 <img src={logo} alt="Logo" className="logo" />
             </a>  
-            <a className="titulo">PokeBattle</a>
+            <a href="/" className="titulo">PokeBattle</a>
         </header>
     );
 };

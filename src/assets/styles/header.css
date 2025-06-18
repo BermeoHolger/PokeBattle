@@ -1,5 +1,7 @@
 
 .header {
+    margin: 0;
+    padding: 0;
     background-color: #07193b;
     width: 100vw;
     height: 6vw;
@@ -8,12 +10,14 @@
     gap: 2vw;
     position: fixed;
     top: 0;
+    margin-bottom: 0vw;
 
 }
 .titulo{
     font-size: 4vw;
     color: rgb(99, 154, 173);
     font-weight: 600;
+    text-decoration:none;
 }
 .logo{
     margin-top: 0.5vw;

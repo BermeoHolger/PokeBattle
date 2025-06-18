@@ -1,0 +1,28 @@
+.navBar {
+    margin:0;
+    padding:0;    
+    font-size: 1vw;
+    color: rgb(248, 248, 247);
+    font-weight: 600;
+    background-color: hsl(219, 79%, 13%);
+    width: 100vw;
+    height: 2vw;
+    justify-content: center;    
+    text-decoration: none;
+    display: flex;
+    gap: 2vw;  
+    margin-top: 0vw;
+    align-items: center;
+    position:fixed;
+    top:6vw;
+}
+.button button{
+    gap: 5vw;  
+    font-size: 1vw;
+    font-weight: 600;
+    text-decoration: none;
+    color: rgb(241, 241, 243);
+    background-color:rgb(31, 100, 183); 
+    margin:1.5vw;   
+    
+}
