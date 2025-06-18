@@ -9,3 +9,12 @@ export const getEstadisticas = async () => {
     throw error;
   }
 };
+export const registrar = async (data) => {
+  try {
+    const response = await axios.post(`${API_BASE_URL}/registro`, data);
+    return response.data;
+  } catch (error) {
+    console.error('Error al registrar:', error);
+    throw error;
+  }
+};
