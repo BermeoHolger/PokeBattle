@@ -1,0 +1,58 @@
+
+.total{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20vw;
+    margin: 5vw;
+}
+
+.mensajes{
+    position: fixed;
+    bottom: 2vw;
+}
+
+.form-mazo{
+    text-align: center;
+}
+
+.form-cartas{
+    text-align: center;
+}
+
+.cartaElegida{
+    display: flex;
+    justify-content: right;
+    gap: 1vw;
+    
+}
+
+.tablatotal{
+    max-height: 20vw;
+    overflow-y: auto;
+    border: 1px solid gray;
+    display: block;
+    width: auto;
+    margin: auto;
+    margin: 1vw;
+    
+}
+.tabla{
+    width: 100%;
+    border-collapse: collapse;
+
+}
+
+.tablatotal th,
+.tablatotal td {
+  border: 1px solid #999;
+  padding: 8px 15px;
+  text-align: center;
+  vertical-align: middle;
+  background-color: #07193b; /* fondo oscuro para que se note mejor */
+  color: white;
+}
+.fila:hover td{
+  background-color: #1c2b46; /* Light gray background on hover */
+  cursor: pointer; /* Indicate it's interactive */
+}

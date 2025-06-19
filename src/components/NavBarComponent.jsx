@@ -9,15 +9,14 @@ export const NavBarComponent = ({isLoggedIn}) => {
   return (
     
     <nav className="navBar">
-      <a>Hola *Agergar Nombre* </a>
       <div className='button'>
         {isLoggedIn ? (
           <>
+          <span>Hola *Agergar Nombre* </span>
           <button onClick={() => {navigate("/jugar");}}> Jugar </button>
           <button onClick={() => {navigate("/mismazos");}}> Mis Mazos </button>
           <button onClick={() => {navigate("/editarusuario");}}> Editar Usuario </button>
-          <button onClick={() => {navigate("/logout");}}> Logout </button>
-          
+          <button onClick={() => {navigate("/logout");}}> Logout </button>         
           </>
         ): (
           <>
