@@ -13,9 +13,10 @@ export const NavBarComponent = ({isLoggedIn}) => {
         {isLoggedIn ? (
           <>
           <span>Hola *Agergar Nombre* </span>
+          <button onClick={() => {navigate("/jugar");}}> Jugar </button>
           <button onClick={() => {navigate("/mismazos");}}> Mis Mazos </button>
           <button onClick={() => {navigate("/editarusuario");}}> Editar Usuario </button>
-          <button onClick={() => {navigate("/logout");}}> LOGOUT </button>
+          <button onClick={() => {navigate("/logout");}}> Logout </button>         
           </>
         ): (
           <>

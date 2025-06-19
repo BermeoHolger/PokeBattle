@@ -53,6 +53,7 @@ export const login = async (data) => {
     throw error;
   }
 };
+
 export const altaMazo = async (data) => {
   try {
     const response = await axios.post(`${api.defaults.baseURL}/mazos`, data,
@@ -66,6 +67,22 @@ export const altaMazo = async (data) => {
     return response.data;
   } catch (error) {
     console.error('Error al registrar el mazo:', error);
+    throw error;
+  }
+};
+
+export const editarusuario = async (usuario, nuevosDatos,token) => {
+  try {
+    const response = await axios.put(`${api.defaults.baseURL}/usuarios/${usuario}`, nuevosDatos, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });    
+    return response;
+  }
+   catch (error) {
+    console.error('Error al Editar Usuario:', error);
+
     throw error;
   }
 };
