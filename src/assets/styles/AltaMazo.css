@@ -1,10 +1,43 @@
 
 .total{
     display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 20vw;
-    margin: 5vw;
+    align-items: flex-start;
+    place-content: center;
+    text-align: center;
+    gap: 5vw;
+    margin-left: 11vw;
+    margin-right: 11vw;
+}
+form{
+    display: flex;
+    gap: 1vw;
+}
+
+input[type="submit"]{
+    background-color: hsl(254, 100%, 97%);
+    color: #07193b;
+    font-weight: 700;
+    height: 2vw;
+    width: 5vw;
+    border-radius: .5vw;
+}
+
+input[type="submit"]:hover{
+    background-color: #1c2b46;
+    color: white;
+    cursor: pointer;
+}
+
+.boton-eliminar{
+    background-color: #07193b;
+    color: aliceblue;
+    height: 2vw;
+    border-radius: .5vw;
+
+}
+.boton-eliminar:hover{
+    background-color: #1c2b46;
+    cursor: pointer;
 }
 
 .mensajes{
@@ -12,47 +45,65 @@
     bottom: 2vw;
 }
 
-.form-mazo{
-    text-align: center;
-}
-
 .form-cartas{
     text-align: center;
 }
 
+.form-mazo{
+    text-align: center;
+    display: block;
+    align-items: center;
+    justify-content: center;
+    gap: 2vw;
+}
+
+.atributosCarta{
+    display: flex;
+    justify-content: center;
+    gap: 1vw;
+}
+
 .cartaElegida{
     display: flex;
+    background-color: #07193b;
+    margin: 1vw;
+    border: 1px solid gray;
+    padding-right: .5vw;
+    padding-left: .5vw;
     justify-content: right;
+    align-items: center;
     gap: 1vw;
+    height: 3vw;
+    border-radius: .5vw;
     
 }
 
 .tablatotal{
     max-height: 20vw;
+    width: 100%;
     overflow-y: auto;
     border: 1px solid gray;
     display: block;
-    width: auto;
-    margin: auto;
     margin: 1vw;
+    border-radius: .5vw;
+    box-sizing: border-box; 
     
 }
 .tabla{
-    width: 100%;
     border-collapse: collapse;
-
+    width: 100%;
 }
 
 .tablatotal th,
 .tablatotal td {
-  border: 1px solid #999;
-  padding: 8px 15px;
+ 
+  padding: 1vw 2.5vw;
   text-align: center;
   vertical-align: middle;
-  background-color: #07193b; /* fondo oscuro para que se note mejor */
+  background-color: #07193b;
   color: white;
 }
 .fila:hover td{
-  background-color: #1c2b46; /* Light gray background on hover */
-  cursor: pointer; /* Indicate it's interactive */
+  background-color: #1c2b46; 
+  cursor: pointer; 
 }

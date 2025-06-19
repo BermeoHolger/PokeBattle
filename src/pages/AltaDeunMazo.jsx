@@ -71,6 +71,8 @@ export const AltaDeunMazo = () => {
 
     const handleSubmitMazo = async (e) => {
     e.preventDefault();
+    setDatos();
+    setError();
     try {
       if(cartasElegidas.length ==5){
         const idsDeCartasElegidas = cartasElegidas.map(carta => carta.id);
@@ -79,15 +81,18 @@ export const AltaDeunMazo = () => {
           id: idsDeCartasElegidas, 
         }));
         const response = await altaMazo(Mazo); 
-        setDatos(response); 
-        setError();
+        if(response.error){
+          setError(response);
+        }
+        else{
+          setDatos('Mazo Creado Correctamente'); 
+        }
       }
       else{
-        setError("Debe Enviar 5 Cartas");
+        setError({ error: 'Debes Enviar 5 Cartas' });
       }
     } 
     catch (err) {
-      setDatos();
       if (err.response && err.response.data) {
         setError(err.response.data);
       } else {
@@ -115,23 +120,22 @@ export const AltaDeunMazo = () => {
         Nombre: 
         <input type="text" name="nombre" onChange={handleChangeMazo} value={Mazo.nombre}/>
 
-        <input type="submit" value="crear"/>
+        <input type="submit" value="Crear"/>
       </form>
+    
       {cartasElegidas.length > 0 ? (
         <div>
           {cartasElegidas.map((carta) => (
             <div key={carta.id} className="cartaElegida">
+              <div className="atributosCarta">
               <p>{carta.nombre}</p>
               <p>{carta.ataque}</p>
-              <p>{carta.ataque_nombre}</p>
-              <button className="boton-eliminar"  onClick={() => eliminarCarta(carta.id)}> Eliminar </button>
-            </div>
-            
-        ))}
+              </div>
+              <button  className="boton-eliminar"  onClick={() => eliminarCarta(carta.id)}> Eliminar </button>
+            </div> ))}
+
         </div>
-      ): (
-        <></>
-      )
+      ): ( <></> )
     
       }
       </div>
@@ -156,6 +160,7 @@ export const AltaDeunMazo = () => {
                 <th>Nombre</th>
                 <th>Ataque</th>
                 <th>Nombre de Ataque</th>
+                <th>Atributo</th> 
               </tr>
             </thead>
             <tbody>
@@ -164,6 +169,7 @@ export const AltaDeunMazo = () => {
                   <td>{item.nombre}</td>
                   <td>{item.ataque}</td>
                   <td>{item.ataque_nombre}</td>
+                  <td>{item.atributo_id}</td>
                 </tr>
               ))}
             </tbody>
@@ -173,7 +179,7 @@ export const AltaDeunMazo = () => {
       }
       </div>
       <p className="mensajes">
-        {error && <div>{JSON.stringify(error)}</div>}
+        {error && <div>{JSON.stringify(error.error)}</div>}
         {datos && <div>{JSON.stringify(datos)}</div>}
       </p>
     </div>
