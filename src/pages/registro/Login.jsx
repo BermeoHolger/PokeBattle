@@ -6,7 +6,7 @@ export const Login = ({setIsLoggedIn}) => {
     usuario: "",
     password: "",
   });
-  const [error, setError] = useState(null);
+  
   const [datos, setDatos] = useState(null);
 
   const handleChange = (e) => {
