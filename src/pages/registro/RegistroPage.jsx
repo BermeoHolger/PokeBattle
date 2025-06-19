@@ -32,10 +32,12 @@ export const RegistroPage = () => {
     <div>
       Pagina para registrarse :)
       <form onSubmit={handleSubmit}>
-        Nombre: <input type="text" name="nombre" onChange={handleChange} value={formData.nombre}/>
-        Usuario: <input type="text" name="usuario" onChange={handleChange} value={formData.usuario}/>
-        Clave: <input type="text" name="password" onChange={handleChange} value={formData.password}/>
-          <input type="submit" value="Enviar"/>
+        <ul>
+        <li><label>Nombre:</label> <input type="text" name="nombre" onChange={handleChange} value={formData.nombre}/></li>
+        <li>Usuario: <input type="text" name="usuario" onChange={handleChange} value={formData.usuario}/></li>
+        <li>Clave: <input type="text" name="password" onChange={handleChange} value={formData.password}/></li>
+          <input type="submit" value="Enviar" />
+        </ul>
       </form>
         </div>
         )

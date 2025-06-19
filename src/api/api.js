@@ -35,3 +35,17 @@ export const login = async (data) => {
     throw error;
   }
 };
+export const editarusuario = async (usuario, nuevosDatos,token) => {
+  try {
+    const response = await axios.put(`${api.defaults.baseURL}/usuarios/${usuario}`, nuevosDatos, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });    
+    return response;
+  }
+   catch (error) {
+    console.error('Error al Editar Usuario:', error);
+    throw error;
+  }
+};
