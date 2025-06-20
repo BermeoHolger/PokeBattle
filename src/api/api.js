@@ -74,15 +74,49 @@ export const altaMazo = async (data) => {
 export const editarusuario = async (usuario, nuevosDatos,token) => {
   try {
     const response = await axios.put(`${api.defaults.baseURL}/usuarios/${usuario}`, nuevosDatos, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });    
+      headers: {
+        Authorization: `Bearer ${token}`,
+      }
+      }
+    );    
     return response;
-  }
-   catch (error) {
+  }catch (error) {
     console.error('Error al Editar Usuario:', error);
 
+    throw error;
+  }
+};
+
+
+export const recuperarMazos = async (id_user,token) => {
+  try {
+    const response = await axios.get(`${api.defaults.baseURL}/usuarios/${id_user}/mazos`, 
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        }
+      }
+    );
+    return response;
+  } catch (error) {
+    console.error('Error al obtener los mazos:', error);
+    throw error;
+  }
+};
+
+export const comenzarPartida = async (data,token) => {
+  try {
+    const response = await axios.post(`${api.defaults.baseURL}/partidas`, data, 
+      {
+        headers: {
+          'Content-Type': 'application/json', 
+          Authorization: `Bearer ${token}`,
+        }
+      }
+    );
+    return response;
+  } catch (error) {
+    console.error('Error al llamar al enpoint de post/partidas:', error);
     throw error;
   }
 };
