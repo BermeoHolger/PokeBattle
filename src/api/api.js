@@ -44,8 +44,8 @@ export const registrar = async (data) => {
 export const login = async (data) => {
   try {
     const response = await axios.post(`${api.defaults.baseURL}/login`, data);
-    const token = response.headers['token'];
-    localStorage.setItem('Token', token);
+    const token2 = response.headers['token'];
+    localStorage.setItem('Token', token2);
     return response;
   }
    catch (error) {

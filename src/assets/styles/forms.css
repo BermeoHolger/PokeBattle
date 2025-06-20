@@ -10,6 +10,9 @@
   background-color: black;
   color: aliceblue;
 }
+.totalRegistro{
+  margin: 0 30vw;
+}
 .fondojuego{
   background-image: url('https://kantocards.com/cdn/shop/files/P9488-290-85568_02.jpg?v=1727569225&width=722');
   background-size: cover;

@@ -59,7 +59,7 @@ input[type="submit"]:hover{
 
 .atributosCarta{
     display: flex;
-    justify-content: center;
+    margin: 0 1vw 0 auto;
     gap: 1vw;
 }
 
@@ -70,7 +70,7 @@ input[type="submit"]:hover{
     border: 1px solid gray;
     padding-right: .5vw;
     padding-left: .5vw;
-    justify-content: right;
+    justify-content: space-between;
     align-items: center;
     gap: 1vw;
     height: 3vw;

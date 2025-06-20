@@ -49,26 +49,33 @@ export const EditarUsuario = () => {
 
   return (
     <div>
-      <div>
+      <div >
+          
           <form onSubmit={handleSubmit}>
           <label>Nuevo nombre del Usuario:</label>
           <input type="text" value={Nombre} onChange={(e) => setNombre(e.target.value)} minLength={1} maxLength={30} /> <br />
+          </form>
           {Nombre.length < 1 && <p className="formularios">Campo no puede estar vacio</p>}
           {Nombre.length > 30 && <p className="formularios">Campo no puede tener mas de 30 chars</p>}
 
+          <form onSubmit={handleSubmit}>
           <label>Nueva Password:</label>
           <input type="password" value={Password} onChange={(e) => setPassword(e.target.value)} minLength={8} required /><br />
+          </form>
           {Password.length < 8 && <p className="formularios">Password debe contener min 8 caraceres</p>}
           {!cumpleMayuscula && <p className="formularios">Debe contener al menos una Mayúscula</p>}
           {!cumpleMinuscula && <p className="formularios">Debe contener al menos una minúscula</p>}
           {!cumpleNum && <p className="formularios">Debe contener un número</p>}
           {!cumpleCharEsp && <p className="formularios">Debe contener un caracter especial!</p>}
+          
 
+          <form onSubmit={handleSubmit}>
           <label>Confirmar nueva Password:  </label>
           <input type="password" value={PassConfirm} onChange={(e) => setPassConfirm(e.target.value)} minLength={8} required /><br />
-          {PassConfirm != Password && <p className="formularios">Contraseñas no coinciden</p>}
+          
           <button type="submit" className="botonEnviar"> Actualzar Datos</button>
-        </form>    
+          </form>    
+          {PassConfirm != Password && <p className="formularios">Contraseñas no coinciden</p>}
       </div>
       <div className="resultadosback">
       {datosback?.estado && <p className="formularios"> Estado --  {datosback.estado} </p>}

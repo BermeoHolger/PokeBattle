@@ -74,7 +74,7 @@ export const AltaDeunMazo = () => {
     setDatos();
     setError();
     try {
-      if(cartasElegidas.length ==5){
+      if((cartasElegidas.length ==5) && (Mazo.nombre)){
         const idsDeCartasElegidas = cartasElegidas.map(carta => carta.id);
         setMazo(prevMazo => ({
           ...prevMazo, 
@@ -88,9 +88,11 @@ export const AltaDeunMazo = () => {
           setDatos('Mazo Creado Correctamente'); 
         }
       }
-      else{
+      else if(cartasElegidas.length<5){
         setError({ error: 'Debes Enviar 5 Cartas' });
       }
+      else  
+        setError({error: 'El Mazo Debe Tener Nombre'})
     } 
     catch (err) {
       if (err.response && err.response.data) {
