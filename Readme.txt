@@ -3,3 +3,5 @@
 
 2.- En el index del backend corregir la linea de permisos de los metodos para que quede asi: header("Access-Control-Allow-Methods: GET, POST, PUT, OPTIONS");
 3.- En UserController del backend cambiar el mensaje de respuesta de la funcion 'actualizar' cuando status=200 -> Cambiar de 'error' a 'estado'.
+
+4. Modificacion del endpoint post/partidas en el backend para que devuelva toda la info de las cartas del mazo a utilizar y no solo los ids.
