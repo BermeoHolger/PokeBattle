@@ -3,23 +3,22 @@ import '../assets/styles/navBar.css';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-export const NavBarComponent = ({isLoggedIn}) => {
+export const NavBarComponent = ({isLoggedIn,setIsLoggedIn}) => {
   let navigate = useNavigate();
-  const token = localStorage.getItem('Token');
+  const token = sessionStorage.getItem('Token');
   return (
     
     <nav className="navBar">
-      
-      
-        {(isLoggedIn || token) ? (
+    
+        {(isLoggedIn || token) ? ( //agregar el or token 
           <>
-          <span className='mensaje'>Hola *Agergar Nombre* </span>
+          <span className='mensaje'>Hola *Agregar Nombre* </span>
           <div className='botones'>
           <button onClick={() => {navigate("/jugar");}}> Jugar </button>
           <button onClick={() => {navigate("/mismazos");}}> Mis Mazos </button>
           <button onClick={() => {navigate("/editarusuario");}}> Editar Usuario </button>
-          <button onClick={() => {navigate("/logout");}}> Logout </button>     
-          </div>    
+          <button onClick={() => {navigate("/"); sessionStorage.removeItem('Token'); setIsLoggedIn(false);}}> Logout </button>
+          </div>         
           </>
         ): (
           <>

@@ -1,6 +1,6 @@
 import '../assets/styles/forms.css'
 import { use, useState } from 'react'
-import { comenzarPartida, recuperarMazos } from '../api/api';
+import { comenzarPartida, recuperarMazos, obtenerAtributosCartas } from '../api/api';
 import { jwtDecode } from 'jwt-decode';
 
 export const Jugar = () => {
@@ -10,8 +10,12 @@ export const Jugar = () => {
   const [mazos, setMazos] = useState([]);
   const [mazoSeleccionado, setMazoSeleccionado] = useState(null);
   const[cartas, setCartas] = useState([]);
+  const[cartasServer, setCartasServer] = useState([]);
+  const[jugada, setJugada] = useState(false);
+  let id_partida;
 
-  const token = localStorage.getItem('Token');
+
+  let token = sessionStorage.getItem("Token");
   
   let datos = null;
   let id_user = null;
@@ -31,13 +35,18 @@ export const Jugar = () => {
         console.log("Data enviada es: ",data);
         const response = await comenzarPartida(data,token);
         console.log("el post/partidas se llamó bien")
-        const aux = response.data.cartas;
-        console.log("abajo deberian estar las cartas del mazo seleccionado: " + aux);
+        const aux = response.data.cartas;        
+        id_partida = response.data.id_partida;
+        console.log("el id de la partida es:" + id_partida);
         if(Array.isArray(aux)){
             setCartas(aux);
         }else{
           setCartas([]);
         }
+        const response2 = await obtenerAtributosCartas(1,id_partida);        
+        console.log("se obtuvieron los tributos e ids del mazo del server");
+        setCartasServer(response2.data);
+
 
     } catch (err) {
       console.log("Error en Comenzar partida");
@@ -73,6 +82,17 @@ export const Jugar = () => {
     console.log("ID seleccionado:", e.target.value);
   };
 
+  /*const manejarJugada=()=>{
+    setJugada(!jugada);
+    console.log("Se debe jugar la carta? " + jugada);
+    try{
+
+    }catch{
+
+    }
+
+  }*/
+
   return (
     <div>
         <h1>Pagina de juego</h1>
@@ -100,17 +120,31 @@ export const Jugar = () => {
             {mazoSeleccionado && (
               <p>ID del mazo seleccionado: {mazoSeleccionado}</p>
             )}
+            <div className='filaDeCartas'>
             {cartas ? (
-              cartas.map((carta) => (
-              <div key={carta.id} className="cartaElegida">
-                <div className="atributosCarta">
-                <p>{carta.nombre}</p>
-                <p>{carta.ataque}</p>
-                
-                </div>
-              </div> ))
+                cartas.map((carta) => (
+                <div key={carta.id} className="cartaElegida">
+                  <ul className="atributosCarta ">
+                  <button className='botonEnviar ' > - {carta.nombre} - Atributo: {carta.atributo_nombre} | Ataque: {carta.ataque_nombre} | Poder de ataque: {carta.ataque}</button>
+                  </ul>
+                </div> ))                          
             ): (<></>)
             }
+            </div>
+            <hr/> {/* LINEA SEPARADORA QUE LUEGO HAY QUE BORRAR*/}
+            <div>
+              {id_partida? <div>
+                "No hay atributos" 
+                </div>
+              : 
+                <div className="filaDeCartas">
+                {Object.entries(cartasServer).map(([id,atributo])=> (<button key={id}className="cartaElegida botonEnviar "> ID de la carta: {id} | Atributo: {atributo}</button>))}
+                </div>
+
+              
+              }
+            </div>
+
             {/* 
             EL botón 'crear partida' sirve para que al dar click llame al enpoint de get_mazos y se muestren como
             opciones de mazos a escoger los nombres de los mazos de cada user. (hecho)
@@ -119,8 +153,19 @@ export const Jugar = () => {
 
             Agregar que cuando se de el click a 'Iniciar Partida' se use el id del mazo seleccionado para llamar
             al endpoint de post_partida y que asi las cartas del mazo pasen de en_mazo a en_mano y guardar en una variable extra las cartas que
-            vienen en el json de respuesta del enpoint, junto cno el id de la partida.
+            vienen en el json de respuesta del enpoint, junto con el id de la partida.(hecho)
+            
+            Agregar que: Las cartas del servidor se mostrarán en la parte superior, no serán visibles para el usuario, estarán dadas vuelta pero
+             si se verá su atributo
+            
+             Para tener las cartas del servidor solo hace falta llamar al enpoint de get /usuarios/{usuario}/partidas/{partida}/cartas que 
+             devuelve los atributos del mazo y el id de la carta de ese atributo.Asi luego con el id podemos llamar al post jugada que 
+             me devuelve el id de la carta que jugo el servidor y solo con eso podemos dejar de mostrar la carta que tenga el mismo id. En las
+             cartas delservidor solo hace falta mostrar el atributo y nada mas asi queno hace falta nuevo endpoint
 
+            Agregar que se muestre el string de qué atributo tiene cada carta y no que se vea el numero de atributo.
+
+            HOY: Mejoras en la NavBar y cambios en el almacenamiento del token. 
             */
            }
           </>
