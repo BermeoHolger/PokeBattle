@@ -1,51 +1,86 @@
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { getEstadisticas } from '../../api/api';
+import '../../assets/styles/statpage.css';
 
-const GetEstadisticas = () => {
+export const StatPages = () => {
   const [datos, setDatos] = useState([]);
   const [error, setError] = useState(null);
-  const[ocultar,setOcultar]= useState(true);
+  const [ordenAscendente, setOrdenAscendente] = useState(true);
 
-  const mostrarTodo = async () => {
-    setOcultar(!ocultar);
-    try {
-      const response = await getEstadisticas();
-      setDatos(response);
-      console.log(response);
-    } catch (err) {
-      setError('Hubo un error al obtener las estadísticas');
-    }
+  useEffect(() => {
+    const fetchDatos = async () => {
+      try {
+        const response = await getEstadisticas();
+        setDatos(response);
+      } catch (err) {
+        setError('Error al obtener las estadisticas');
+      }
+    };
+
+    fetchDatos();
+  }, []);
+
+  const cambiarOrden = () => {
+    setOrdenAscendente(!ordenAscendente);
   };
+
+  const maxProm = Math.max(...datos.map(item => {
+    let partidas = item.Gano + item.Perdio + item.Empato;
+    return partidas === 0 ? 0 : (item.Gano / partidas);
+  }));
+
+  const datosOrdenados = [...datos].sort((a, b) => {
+    let partidasA = a.Gano + a.Perdio + a.Empato;
+    let promA = a.Gano / partidasA;
+
+    let partidasB = b.Gano + b.Perdio + b.Empato;
+    let promB = b.Gano / partidasB;
+
+    return ordenAscendente ? promA - promB : promB - promA;
+  });
+
   return (
     <div>
-      <h2>Estadísticas</h2>
-      <button onClick={mostrarTodo}> {ocultar ? " Mostrar estadísticas": "Ocultar Estadisticas"}  </button>
+      <div className='estadisticas'>
+        <h2>Estadísticas</h2>
+        {error && <p>{error}</p>}
 
-      {error && <p>{error}</p>}
-      {ocultar? 
-      <>
-      </>         
-      : 
-      <>
-        <table>
-          <thead>
-            <tr><th>Estas son las estadísitcas</th></tr>
-          </thead>
-          <tbody>
-            <tr> 
-              <td>       
-              {datos.map((item, index) => (
-                <ul key={index}> {JSON.stringify(item)} </ul>
-              ))} 
-              </td>       
-            </tr>
-        </tbody>
-        </table>
-      </>
-      }
-      
+        <div>
+          <table className="tablaStats">
+            <thead className="tablaS">
+              <tr>
+                <th>Nombre</th>
+                <th>Partidas</th>
+                <th>Gano</th>
+                <th>Perdio</th>
+                <th>Empato</th> 
+                <th>Promedio</th>
+              </tr>
+            </thead>
+            <tbody>
+              {datosOrdenados.map((item) => {
+                let partidas = item.Gano + item.Perdio + item.Empato;
+                let prom = (item.Gano / partidas);
+                let esMaximo = prom === maxProm;
+                return (
+                  <tr key={item.id} className={esMaximo ? 'items-maximo' : 'items'}>
+                    <td>{item.nombre}</td>
+                    <td>{partidas}</td>
+                    <td>{item.Gano}</td>
+                    <td>{item.Perdio}</td>
+                    <td>{item.Empato}</td>
+                    <td>{(prom * 100).toFixed(0)}%</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+          <button onClick={cambiarOrden}>
+            Ordenar {ordenAscendente ? '▲' : '▼'}
+          </button>
+        </div>
+      </div>
     </div>
   );
 };
 
-export default GetEstadisticas;
