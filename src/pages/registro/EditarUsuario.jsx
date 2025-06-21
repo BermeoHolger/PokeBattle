@@ -18,7 +18,7 @@ export const EditarUsuario = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();// evita que se recargue la página
-    const token = localStorage.getItem('Token');
+    const token = sessionStorage.getItem('Token');
     let datos = null;
     let id_user = null;    
     let nuevosDatos = null;
