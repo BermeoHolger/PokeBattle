@@ -23,7 +23,7 @@ input[type="submit"]{
 }
 
 input[type="submit"]:hover{
-    background-color: #1c2b46;
+    background-color: #19376e;
     color: white;
     cursor: pointer;
 }
@@ -36,7 +36,7 @@ input[type="submit"]:hover{
 
 }
 .boton-eliminar:hover{
-    background-color: #1c2b46;
+    background-color: #19376e;
     cursor: pointer;
 }
 
@@ -67,7 +67,7 @@ input[type="submit"]:hover{
     display: flex;
     background-color: #07193b;
     margin: 1vw;
-    border: 1px solid gray;
+    border: 1px solid white;
     padding-right: .5vw;
     padding-left: .5vw;
     justify-content: space-between;
@@ -80,30 +80,42 @@ input[type="submit"]:hover{
 
 .tablatotal{
     max-height: 20vw;
+    max-width: 45vw;
     width: 100%;
     overflow-y: auto;
-    border: 1px solid gray;
+    border: 2px solid white;
     display: block;
     margin: 1vw;
     border-radius: .5vw;
     box-sizing: border-box; 
+    border-collapse: collapse;
     
 }
 .tabla{
     border-collapse: collapse;
     width: 100%;
+    background-color: #19376e;
 }
 
-.tablatotal th,
+
 .tablatotal td {
- 
-  padding: 1vw 2.5vw;
+  border-collapse: collapse;
+  padding: 1vw 2.6vw;
   text-align: center;
   vertical-align: middle;
   background-color: #07193b;
   color: white;
 }
+
+.tablatotal td, th{
+    font-weight: 500;
+    border:2px solid rgb(154, 154, 154);
+    text-align: center;
+    vertical-align: middle;
+    color: white;
+}
+
 .fila:hover td{
-  background-color: #1c2b46; 
+  background-color: #19376e;
   cursor: pointer; 
 }

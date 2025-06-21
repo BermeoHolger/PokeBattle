@@ -9,24 +9,28 @@ export const NavBarComponent = ({isLoggedIn}) => {
   return (
     
     <nav className="navBar">
-      <div className='button'>
-        {isLoggedIn ? (
+      
+      
+        {(isLoggedIn || token) ? (
           <>
-          <span>Hola *Agergar Nombre* </span>
+          <span className='mensaje'>Hola *Agergar Nombre* </span>
+          <div className='botones'>
           <button onClick={() => {navigate("/jugar");}}> Jugar </button>
           <button onClick={() => {navigate("/mismazos");}}> Mis Mazos </button>
           <button onClick={() => {navigate("/editarusuario");}}> Editar Usuario </button>
-          <button onClick={() => {navigate("/logout");}}> Logout </button>         
+          <button onClick={() => {navigate("/logout");}}> Logout </button>     
+          </div>    
           </>
         ): (
           <>
+          <div className='botones'>
           <button onClick={() => {navigate("/registro");}}> REGISTRO </button>
           <button onClick={() => {navigate("/login");}}> LOGIN </button>
+          </div>
           </>
-          
         )
         }
-      </div>
+   
 
     </nav>
   )
