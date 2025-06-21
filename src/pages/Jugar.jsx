@@ -31,7 +31,7 @@ export const Jugar = () => {
         console.log("Data enviada es: ",data);
         const response = await comenzarPartida(data,token);
         console.log("el post/partidas se llamó bien")
-        const aux = response.data;
+        const aux = response.data.cartas;
         console.log("abajo deberian estar las cartas del mazo seleccionado: " + aux);
         if(Array.isArray(aux)){
             setCartas(aux);
@@ -100,6 +100,17 @@ export const Jugar = () => {
             {mazoSeleccionado && (
               <p>ID del mazo seleccionado: {mazoSeleccionado}</p>
             )}
+            {cartas ? (
+              cartas.map((carta) => (
+              <div key={carta.id} className="cartaElegida">
+                <div className="atributosCarta">
+                <p>{carta.nombre}</p>
+                <p>{carta.ataque}</p>
+                
+                </div>
+              </div> ))
+            ): (<></>)
+            }
             {/* 
             EL botón 'crear partida' sirve para que al dar click llame al enpoint de get_mazos y se muestren como
             opciones de mazos a escoger los nombres de los mazos de cada user. (hecho)

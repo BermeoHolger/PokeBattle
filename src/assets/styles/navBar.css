@@ -16,13 +16,19 @@
     position:fixed;
     top:6vw;
 }
-.button button{
+.botones button{
     gap: 5vw;  
     font-size: 1vw;
     font-weight: 600;
     text-decoration: none;
-    color:  rgb(99, 154, 173);
+    color:  white;
     background-color:hsl(219, 79%, 13%); 
     margin:1.5vw;   
+    border-radius: .5vw;
     
+}
+
+.botones button:hover{
+    background-color: #19376e;
+    cursor: pointer;
 }
