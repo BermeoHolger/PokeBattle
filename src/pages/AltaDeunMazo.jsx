@@ -146,10 +146,10 @@ export const AltaDeunMazo = () => {
       <h2>Elegi Tus 5 Cartas</h2>
       <form onSubmit={handleSubmit}>
         Nombre: 
-        <input type="text" name="nombre" onChange={handleChangeCarta} value={Carta.nombre}/>
+        <input type="text" name="nombre" onChange={handleChangeCarta} value={Carta.nombre} placeholder="opcional"/>
         
         Atributo: 
-        <input type="number" name="atributo" onChange={handleChangeCarta} value={Carta.atributo}/>
+        <input type="number" name="atributo" onChange={handleChangeCarta} value={Carta.atributo} placeholder="opcional"/>
 
         <input type="submit" value="Buscar"/>
       </form>
