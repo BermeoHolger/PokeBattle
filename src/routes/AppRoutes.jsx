@@ -5,7 +5,7 @@ import { EditarUsuario } from "../pages/registro/EditarUsuario";
 import { AltaDeunMazo } from "../pages/AltaDeunMazo";
 import { Jugar } from "../pages/Jugar";
 import { MisMazos } from "../pages/MisMazos";
-import  {StatPages}   from "../pages/stat/StatPages"; 
+import  {StatPages}   from "../pages/stat/StatPage"; 
 import { useState } from "react"; 
 
 
