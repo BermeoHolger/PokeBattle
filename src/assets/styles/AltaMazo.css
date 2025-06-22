@@ -94,7 +94,7 @@ input[type="submit"]:hover{
 .tabla{
     border-collapse: collapse;
     width: 100%;
-    background-color: #19376e;
+    background-color: rgb(6, 3, 35);
 }
 
 
