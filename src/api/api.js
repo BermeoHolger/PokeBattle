@@ -5,7 +5,7 @@ const api = axios.create({
   baseURL: 'http://localhost:8000', 
   headers:{ 'Content-Type': 'application/json', },
 });
-const token = localStorage.getItem("Token"); 
+const token = sessionStorage.getItem("Token"); 
 
 export const getEstadisticas = async () => {
   try {
@@ -45,7 +45,7 @@ export const login = async (data) => {
   try {
     const response = await axios.post(`${api.defaults.baseURL}/login`, data);
     const token2 = response.headers['token'];
-    localStorage.setItem('Token', token2);
+    sessionStorage.setItem('Token', token2);
     return response;
   }
    catch (error) {
@@ -110,7 +110,7 @@ export const comenzarPartida = async (data,token) => {
       {
         headers: {
           'Content-Type': 'application/json', 
-          Authorization: `Bearer ${token}`,
+          'Authorization': `Bearer ${token}`,
         }
       }
     );
@@ -120,3 +120,20 @@ export const comenzarPartida = async (data,token) => {
     throw error;
   }
 };
+
+export const obtenerAtributosCartas = async (id_usuario,id_partida)=>{
+  try{
+    const response = await axios.get(`${api.defaults.baseURL}/usuarios/${id_usuario}/partidas/${id_partida}/cartas`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        }
+      }
+    )
+    return response;
+  }
+  catch(error){
+    console.log("error al llamal al endpoint de getAtributos");
+    throw error;
+  }
+}

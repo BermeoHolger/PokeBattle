@@ -7,12 +7,12 @@ import "./index.css";
 
 
 const App = () => {    
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(!!sessionStorage.getItem('Token'));
   return (
     <>
       <HeaderComponent/> 
-      <AppRoutes isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}>
-        <NavBarComponent isLoggedIn={isLoggedIn}/>   
+      <AppRoutes  setIsLoggedIn={setIsLoggedIn}>
+        <NavBarComponent isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>   
       </AppRoutes>        
       <FooterComponent/>
    </>
