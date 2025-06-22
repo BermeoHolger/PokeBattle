@@ -34,14 +34,14 @@
 
 .tablaStats td{
     border-collapse: collapse;
-    padding: 1vw 2.4vw;
+    padding: 1vw 2vw;
     text-align: center;
     vertical-align: middle;
     color: white;
 }
 
 .tablaStats td, th{
-    padding: 1vw 1.84vw;
+    padding: 1vw 1.78vw;
     font-weight: 700;
     border:2px solid rgb(154, 154, 154);
     text-align: center;
@@ -52,7 +52,7 @@ button{
     background-color: white;
     color: #07193b;
     font-weight: 600;
-    height: 2vw;
+    height: 30px;
     border-radius: .5vw;
 }
 
