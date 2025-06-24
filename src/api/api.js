@@ -126,7 +126,7 @@ export const obtenerAtributosCartas = async (id_usuario,id_partida)=>{
     const response = await axios.get(`${api.defaults.baseURL}/usuarios/${id_usuario}/partidas/${id_partida}/cartas`,
       {
         headers: {
-          Authorization: `Bearer ${token}`,
+          'Authorization': `Bearer ${token}`,
         }
       }
     )
@@ -134,6 +134,24 @@ export const obtenerAtributosCartas = async (id_usuario,id_partida)=>{
   }
   catch(error){
     console.log("error al llamal al endpoint de getAtributos");
+    throw error;
+  }
+}
+
+export const mandarJugada = async (data)=>{
+  try{
+    const response = await axios.post(`${api.defaults.baseURL}/jugadas`,data,
+      {
+        headers: {
+          'Content-Type': 'application/json', 
+          'Authorization': `Bearer ${token}`,         
+        }
+      }
+    )
+    return response;
+  }
+  catch(error){
+    console.log("error al llamal al endpoint de mandarJugada");
     throw error;
   }
 }
