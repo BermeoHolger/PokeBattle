@@ -1,6 +1,6 @@
 import { editarusuario } from "../../api/api";
 import { useState } from "react";
-import '../../assets/styles/forms.css'
+import '../../assets/styles/editarUsuario.css'
 import { jwtDecode } from 'jwt-decode';
 
 
@@ -49,35 +49,46 @@ export const EditarUsuario = () => {
 
   return (
     <div>
-      <div >
-          
-          <form onSubmit={handleSubmit}>
-          <label>Nuevo nombre del Usuario:</label>
-          <input type="text" value={Nombre} onChange={(e) => setNombre(e.target.value)} minLength={1} maxLength={30} /> <br />
-          </form>
-          {Nombre.length < 1 && <p className="formularios">Campo no puede estar vacio</p>}
-          {Nombre.length > 30 && <p className="formularios">Campo no puede tener mas de 30 chars</p>}
+      <div className="totalForms">
+        <form onSubmit={handleSubmit} className="forma">  
+          <div className="barra">
+            <p>Nuevo Usuario:</p>
+            
+            <input type="text" value={Nombre} onChange={(e) => setNombre(e.target.value)} minLength={1} maxLength={30} /> <br />
+    
+            <div className="mensaje-error">
+              {Nombre.length < 1 && <p className="formularios">Campo no puede estar vacio</p>}
+              {Nombre.length > 30 && <p className="formularios">Campo no puede tener mas de 30 chars</p>}
+            </div>
+          </div>
 
-          <form onSubmit={handleSubmit}>
-          <label>Nueva Password:</label>
-          <input type="password" value={Password} onChange={(e) => setPassword(e.target.value)} minLength={8} required /><br />
-          </form>
-          {Password.length < 8 && <p className="formularios">Password debe contener min 8 caraceres</p>}
-          {!cumpleMayuscula && <p className="formularios">Debe contener al menos una Mayúscula</p>}
-          {!cumpleMinuscula && <p className="formularios">Debe contener al menos una minúscula</p>}
-          {!cumpleNum && <p className="formularios">Debe contener un número</p>}
-          {!cumpleCharEsp && <p className="formularios">Debe contener un caracter especial!</p>}
-          
+          <div className="barra">
+            <p>Nueva Password:</p>
+            <input type="password" value={Password} onChange={(e) => setPassword(e.target.value)} minLength={8} required /><br />
+            <div className="mensaje-error">
+              {Password.length < 8 && <p className="formularios">Password debe contener min 8 caraceres</p>}
+              {!cumpleMayuscula && <p className="formularios">Debe contener al menos una Mayúscula</p>}
+              {!cumpleMinuscula && <p className="formularios">Debe contener al menos una minúscula</p>}
+              {!cumpleNum && <p className="formularios">Debe contener un número</p>}
+              {!cumpleCharEsp && <p className="formularios">Debe contener un caracter especial!</p>}
+            </div>
+          </div>
 
-          <form onSubmit={handleSubmit}>
-          <label>Confirmar nueva Password:  </label>
-          <input type="password" value={PassConfirm} onChange={(e) => setPassConfirm(e.target.value)} minLength={8} required /><br />
-          
-          <button type="submit" className="botonEnviar"> Actualzar Datos</button>
-          </form>    
-          {PassConfirm != Password && <p className="formularios">Contraseñas no coinciden</p>}
+        <div className="barraBoton">
+          <div className="barra">
+            <p>Confirmar nueva Password:  </p>
+            <input type="password" value={PassConfirm} onChange={(e) => setPassConfirm(e.target.value)} minLength={8} required /><br />    
+            
+            <div className="mensaje-error">
+            {PassConfirm != Password && <p className="formularios">Contraseñas no coinciden</p>}
+            </div>
+          </div>
+      
+          <button type="submit" className="botonEnviarForm">Actualizar</button>
+          </div>
+        </form>  
       </div>
-      <div className="resultadosback">
+      <div className="msj">
       {datosback?.estado && <p className="formularios"> Estado --  {datosback.estado} </p>}
       {datosback?.error && <p className="formularios"> Error -- {datosback.error} </p> }
       </div>
