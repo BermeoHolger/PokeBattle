@@ -91,13 +91,16 @@ export const RegistroPage = () => {
     if (!validarFormulario()) return;
 
     const nuevosDatos = { usuario: Usuario, nombre: Nombre, password: Password };
-    setNombre("");
-    setUsuario("");
-    setPassword("");
+    
     try {
       const response = await registrar(nuevosDatos);
-      setDatosBack(response);
-      console.log(response);
+      setDatosBack(response.data);
+      if(response.status){
+        setNombre("");
+        setUsuario("");
+        setPassword("");
+      }
+        
     } catch (err) {
       if (err.response && err.response.data) {
         setDatosBack(err.response.data);

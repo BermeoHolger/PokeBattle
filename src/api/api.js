@@ -35,7 +35,7 @@ export const cartas = async (data) => {
 export const registrar = async (data) => {
   try {
     const response = await axios.post(`${api.defaults.baseURL}/registro`, data);
-    return response.data;
+    return response;
   } catch (error) {
     console.error('Error al registrar:', error);
     throw error;
