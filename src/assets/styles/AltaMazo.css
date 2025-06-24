@@ -4,9 +4,7 @@
     align-items: flex-start;
     place-content: center;
     text-align: center;
-    gap: 5vw;
-    margin-left: 11vw;
-    margin-right: 11vw;
+    gap: 10vw;
 }
 form{
     display: flex;
@@ -47,6 +45,7 @@ input[type="submit"]:hover{
 
 .form-cartas{
     text-align: center;
+    width: 45vw;
 }
 
 .form-mazo{
@@ -55,11 +54,13 @@ input[type="submit"]:hover{
     align-items: center;
     justify-content: center;
     gap: 2vw;
+    width: 25vw;
+    margin-left: 10vw;
 }
 
 .atributosCarta{
     display: flex;
-    margin: 0 1vw 0 auto;
+    margin: 0 2vw 0 auto;
     gap: 1vw;
 }
 
@@ -121,7 +122,7 @@ input[type="submit"]:hover{
 }
 .filaDeCartas {
   display: flex;
-  flex-wrap:nowrap; /* opcional: si hay muchas cartas que no entran en una línea */
+  flex-wrap:nowrap;
   gap: 1vw;
   padding: 1vw;  
   flex-shrink: 1; 

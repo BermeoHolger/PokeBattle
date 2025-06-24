@@ -118,9 +118,9 @@ export const AltaDeunMazo = () => {
     <div className="total">
       <div className="form-mazo">
       <h2>Crea Un Mazo</h2>
-      <form onSubmit={handleSubmitMazo}>
-        Nombre: 
-        <input type="text" name="nombre" onChange={handleChangeMazo} value={Mazo.nombre}/>
+      <form onSubmit={handleSubmitMazo} className="formaM">
+        <label>Nombre:</label> 
+        <input type="text" name="nombre" onChange={handleChangeMazo} value={Mazo.nombre} className="input"/>
 
         <input type="submit" value="Crear"/>
       </form>
@@ -144,12 +144,12 @@ export const AltaDeunMazo = () => {
 
       <div className="form-cartas">
       <h2>Elegi Tus 5 Cartas</h2>
-      <form onSubmit={handleSubmit}>
-        Nombre: 
-        <input type="text" name="nombre" onChange={handleChangeCarta} value={Carta.nombre} placeholder="opcional"/>
+      <form onSubmit={handleSubmit} className="formaC">
+        <label>Nombre:</label> 
+        <input type="text" name="nombre" className="input" onChange={handleChangeCarta} value={Carta.nombre} placeholder="opcional"/>
         
-        Atributo: 
-        <input type="number" name="atributo" onChange={handleChangeCarta} value={Carta.atributo} placeholder="opcional"/>
+        <label>Atributo:</label> 
+        <input type="number" name="atributo" className="input" onChange={handleChangeCarta} value={Carta.atributo} placeholder="opcional"/>
 
         <input type="submit" value="Buscar"/>
       </form>
