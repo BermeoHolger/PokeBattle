@@ -1,7 +1,7 @@
 
 import '../assets/styles/jugar.css'
 import { use, useState } from 'react'
-import { comenzarPartida, recuperarMazos, obtenerAtributosCartas, mandarJugada } from '../api/api';
+import { comenzarPartida, recuperarMazos, obtenerAtributosCartas, mandarJugada, getCartasMazo } from '../api/api';
 import { jwtDecode } from 'jwt-decode';
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -14,13 +14,16 @@ export const Jugar = () => {
   const[cartasServer, setCartasServer] = useState([]);
   const[jugada, setJugada] = useState(false);
   const[id_partida, setId_Partida] = useState(Number);
+  const[cartasServerTotal, setCartasServerTotal] = useState([]);
   const[botonesOcultos, setBotonesOcultos] = useState([]);
   const[ocultasServer, setOcultasServer]= useState([]);
   const[mostrarResultado, setMostrarResultado]= useState(false);
   const[resultado_jugada, setResultadoJugada ]= useState('');
-
+  const[error, setError] =useState('');
   const [PlayAgainButton,setPlayAgainButton]=useState(false);
-
+  const [ultimaCarta, setUltimaCarta] = useState(null); 
+  const [ultimaCartaServ, setUltimaCartaServ] = useState(null); 
+  const atributos = {1: 'Fuego',2: 'Agua',3: 'Tierra',4: 'Normal',5: 'Volador',6: 'Piedra',7: 'Planta'};
   let token = sessionStorage.getItem("Token");
   
   let datos = null;
@@ -40,6 +43,10 @@ export const Jugar = () => {
     }
     const fetchDatos = async () => {
     try {
+        const responseCartas = await getCartasMazo(1);
+        if(responseCartas){
+          setCartasServerTotal(responseCartas);
+        }
         const response = await recuperarMazos(id_user,token);
         const mazosJsn = response.data;
         if (Array.isArray(mazosJsn)) {
@@ -62,23 +69,18 @@ export const Jugar = () => {
     setEstadoFondo(!estadofondo);
     const data={id:Number(mazoSeleccionado)}
     try{
-        console.log("Data enviada es: ",data);
         const response = await comenzarPartida(data,token);
-        console.log("el post/partidas se llamó bien")
         const aux = response.data.cartas;        
         setId_Partida(response.data.id_partida);
-        console.log("el id de la partida es:" + response.data.id_partida);
         if(Array.isArray(aux)){
             setCartas(aux);
         }else{
           setCartas([]);
         }
         const response2 = await obtenerAtributosCartas(1,response.data.id_partida); //obtengo los atributos de las cartas del server       
-        console.log("se obtuvieron los tributos e ids del mazo del server");
-        console.log(response2.data);
         setCartasServer(Object.entries(response2.data));
+        console.log(response2.data);
     } catch (err) {
-      console.log("Error en Comenzar partida");
        if (err.response && err.response.data) {
           setCartas(err.response.data);  // Caso error: setea el error que viene del backend
         } else {
@@ -89,23 +91,25 @@ export const Jugar = () => {
 
   const guardarSeleccion = (e) => {    
     setMazoSeleccionado(e.target.value);
-    console.log("ID seleccionado:", e.target.value);
   };
 
   const manejarJugada= async(carta_id)=>{
     setBotonesOcultos([...botonesOcultos, carta_id]);
+    const cartaEncontrada = cartas.find(carta => carta.id === carta_id);
+    setUltimaCarta(cartaEncontrada);
     setJugada(!jugada);
     setMostrarResultado(true);
+    setError('');
     try{
       let data={
         idcarta: carta_id,
         idpartida: Number(id_partida)
       }
-      console.log("Funciona el doble click para iniciar una jugada!")
       const response = await mandarJugada(data);
-      const info = response.data;      
+      const info = response.data;     
       if(Array.isArray(info) ){ //este if consulta si es la ultima jugada porque en la ultima jugada el backend cambia la respuesta a un array de dos objetos [0]y[1] para mandar el resultado de la partida
         setOcultasServer([...ocultasServer, info[0].carta_server]);
+        setUltimaCartaServ(cartasServerTotal.find(objeto => objeto.id === info[0].carta_server));
         if(info[0].resultado.ataque_server > info[0].resultado.ataque_user){
          setResultadoJugada('Gana el server :(');
         }else if(info[0].resultado.ataque_server < info[0].resultado.ataque_user){
@@ -115,12 +119,9 @@ export const Jugar = () => {
             }
         setResultadoJugada(prev=>prev + '  Esa fue la ultima jugada asi que el resultado de la partida es que el usuario ⇾ ' +info[1].el_usuario );
         setPlayAgainButton(true);
-        console.log(resultado_jugada);
-        console.log("Esa fue la ultima jugada asi que el resultado de la partida es que el usuario: "+ info[1].el_usuario);
-        console.log("la carta jugada por el server es la de id: "+ info[0].carta_server);
-        console.log("el resultado de la jugada es: ataque del server: "+ info[0].resultado.ataque_server + " ataque del usuario: " + info[0].resultado.ataque_user);
       }else{
         setOcultasServer([...ocultasServer, info.carta_server]);
+        setUltimaCartaServ(cartasServerTotal.find(objeto => objeto.id === info.carta_server));
         if(info.resultado.ataque_server > info.resultado.ataque_user){
            setResultadoJugada('Gana el server :(');
         }else if(info.resultado.ataque_server < info.resultado.ataque_user){
@@ -128,21 +129,16 @@ export const Jugar = () => {
           } else{
               setResultadoJugada('Empate! :| ');
             }
-        console.log("la carta jugada por el server es la de id: "+ info.carta_server)
-        console.log("el resultado de la jugada es: ataque del server: "+ info.resultado.ataque_server + " ataque del usuario: " + info.resultado.ataque_user)
-        console.log(resultado_jugada);
       }
 
     }catch(err) {
 
-      console.log("NO Funciona el doble click para iniciar una jugada!")
       if (err.response && err.response.data) {
-          console.log(err.response.data);  // Caso error: setea el error que viene del backend
+          setError(err.response.data);  // Caso error: setea el error que viene del backend
         } else {
-          console.log('Error desconocido');  // Por si no viene nada
+          setError('Error desconocido');  // Por si no viene nada
         }
     }
-
   }
 
   return (
@@ -183,7 +179,7 @@ export const Jugar = () => {
                     ([id, atributo])=> (
                       <div key={id} > 
                         {!ocultasServer.includes(Number(id)) && 
-                          ( <div key={id}className="cartasServer "><p>Atributo</p>{atributo} </div> )
+                          ( <div key={id}className="cartasServer "><p className='etiquetaServer'>Atributo</p>{atributo} </div> )
                         }
                       </div>
                     )
@@ -202,7 +198,10 @@ export const Jugar = () => {
                     {!botonesOcultos.includes(carta.id) && (
                       
                         <button onDoubleClick={ ()=> manejarJugada(carta.id)}  className="botonCartas" >
-                          <div className='tituloCarta'>{carta.nombre}</div> <div>Atributo: {carta.atributo_nombre}</div> <div>Ataque: {carta.ataque_nombre}</div> <div>Poder de ataque: {carta.ataque}</div>
+                          <div className="tituloCarta">{carta.nombre}</div>
+                          <div><span className="etiquetaCarta">Atributo:</span> {carta.atributo_nombre}</div>
+                          <div><span className="etiquetaCarta">Ataque:</span> {carta.ataque_nombre}</div>
+                          <div><span className="etiquetaCarta">Poder de Ataque:</span> {carta.ataque}</div>
                         </button>
                       )
                     }                                   
@@ -215,7 +214,26 @@ export const Jugar = () => {
 
           </div>
            )}
+           {ocultasServer.length > 0 && (
+            <div className='ultCartaServer'>
+              <div className="tituloCarta">{ultimaCartaServ.nombre}</div>
+              <div><span className="etiquetaCarta">Atributo:</span> <br />{(atributos[ultimaCartaServ.atributo_id])}</div>
+              <div><span className="etiquetaCarta">Ataque:</span> <br /> {ultimaCartaServ.ataque_nombre}</div>
+              <div><span className="etiquetaCarta">Poder de Ataque:</span> {ultimaCartaServ.ataque}</div>
+            </div> 
+            )}
+           {botonesOcultos.length > 0 && (
+            <div className='ultCartaUser'>
+              <div className="tituloCarta">{ultimaCarta.nombre}</div>
+              <div><span className="etiquetaCarta">Atributo:</span> <br /> {ultimaCarta.atributo_nombre}</div>
+              <div><span className="etiquetaCarta">Ataque:</span> <br />{ultimaCarta.ataque_nombre}</div>
+              <div><span className="etiquetaCarta">Poder de Ataque:</span> {ultimaCarta.ataque}</div>
+            </div>
+            )}
           <div>
+            {error &&
+              <p>Error {error}</p>
+            }
             {mostrarResultado &&
             <p className='mensajeJugada'>{resultado_jugada}</p>
             }
@@ -232,16 +250,4 @@ export const Jugar = () => {
          
       </div>
   )
-}
-
-{/* 
-  Falta hacer que la carta que se juega vaya al centro junto con la del server, arreglar el css para que se vea bien el fondo y que las cartas 
-  se mantengan alineadas a medida que se van borrando. 
-  Agregar el nombre del usuario al navbar.
-  Implementar que se muestren errores al intentar x cosas pq ahora se rompe todo
-
-  NOTA: para jugar una partida primero seleccionar un mazo, luego para hacer una juagada se debe dar doble click a una carta para que se 
-  envie. Y verificar que no exista una partida 'en curso' actualmente (borrar si hay alguna asi) y que ninguna carta de mazo_carta esté en 'en mano'. 
-  Todas deben estar en 'descartado'.
-  */
 }

@@ -59,31 +59,79 @@
   gap: 15vh;
 
 }
-.filaDeCartasUser{
-  display: flex;
-  gap: 2.4vw;
-}
-.tituloCarta{
-  font-size: medium ;
-  color: rgb(110, 38, 38);
-}
-
 .filaDeCartasServer{
   display: flex;
   transform: translateY(-2.4vh);
-  gap: 2.4vw;
+  flex-wrap: wrap;
+  justify-content: center;
 
 }
+.filaDeCartasUser{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.tituloCarta{
+  font-size: medium ;
+  color: rgb(127, 23, 23);
+}
+
+.etiquetaCarta{
+  color: rgb(116, 57, 57);
+}
+
+.ultCartaUser{
+  position: fixed;
+  width: 20vw;
+  right: 8vw;
+  bottom: 12vh;
+}
+
+.ultCartaServer{
+  position: fixed;
+  width: 20vw;
+  right: 8vw;
+  top: 25vh;
+}
+
+.ultCartaUser, .ultCartaServer{
+  
+  background-color: white;
+  color: #07193b;
+  border-radius: .5vw;
+  font-weight: 600;
+  display: flex;            
+  flex-direction: column;   
+  justify-content: flex-start;
+  vertical-align: top;     
+  text-align: center;
+  box-sizing: border-box;
+  border: 5px groove #07193b;
+  font-size: small;
+  height: 27vh;
+  width: 8vw;
+}
+
+.etiquetaServer{
+  font-weight: 800;
+}
+
+
 .cartasServer{
+  margin-top: 2vh;
   display: block;
   font-size: medium;
   text-align: center;
   font-weight: 600;
   height: 27vh;
   width: 8vw;
-  background-color: white;
-  color: #07193b;;
+  box-sizing: border-box;
+  border: 5px groove #07193b;
+  background-color: #487ad7;
+  color: white;
   border-radius: .5vw;
+  margin-left: 1.2vw;
+  margin-right: 1.2vw;
 }
 .botonCartas{
   display: flex;            
@@ -91,14 +139,26 @@
   justify-content: flex-start;
   vertical-align: top;     
   text-align: center;
+  box-sizing: border-box;
+  border: 5px groove #07193b;
   font-size: small;
   height: 27vh;
   width: 8vw;
   gap: 1vh;
+  margin-left: 1.2vw;
+  margin-right: 1.2vw;
 }
 .botonCartas:hover{
-  background-color: rgb(187, 186, 186);
-  color: #132f62;
+  background-color: rgb(255, 255, 255);
+  color: #3a4f75;
+}
+
+.botonCartas:hover .etiquetaCarta{
+  color: rgb(161, 93, 93);
+}
+
+.botonCartas:hover .tituloCarta{
+  color: rgb(163, 140, 28);
 }
 .mensajeJugada{
   position: fixed;
