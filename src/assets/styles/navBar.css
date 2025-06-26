@@ -1,32 +1,37 @@
 .navBar {
     margin:0;
     padding:0;    
-    font-size: 1vw;
     color: rgb(248, 248, 247);
-    font-weight: 600;
     background-color: hsl(219, 79%, 13%);
     width: 100vw;
     height: 4vh;
     justify-content: center;    
     text-decoration: none;
     display: flex;
-    gap: 2vw;  
     margin-top: 0vw;
     align-items: center;
     position:fixed;
     top:6vw;
 }
 .botones button{
-    gap: 5vw;  
-    font-size: 1vw;
+    font-size: 1.3vw;
     font-weight: 600;
-    height: 4vh;
+    margin-bottom: 1vh;
+    width: 12vw;
+    border: none;
+    outline: none;
+    height: auto;
     text-decoration: none;
+    border-radius: 0vw;
     color:  white;
-    background-color:hsl(219, 79%, 13%); 
-    margin:1.5vw;   
-    border-radius: .5vw;
-    
+    background-color:hsl(219, 79%, 13%);      
+}
+.mensaje{
+    position: fixed;
+    font-weight: 600;
+    margin-bottom: 1vh;
+    font-size: 1.3vw;
+    left: 2vw;
 }
 
 .botones button:hover{

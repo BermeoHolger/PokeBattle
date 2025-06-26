@@ -43,7 +43,7 @@ export const StatPages = () => {
     <div>
       <div className='estadisticas'>
         <h2>Estadísticas</h2>
-        {error && <p>{error}</p>}
+        {error ? ( <p>{error}</p> ):(
 
         <div>
           <table className="tablaStats">
@@ -79,6 +79,7 @@ export const StatPages = () => {
             Ordenar {ordenAscendente ? '▲' : '▼'}
           </button>
         </div>
+        )}
       </div>
     </div>
   );

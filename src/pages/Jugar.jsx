@@ -1,8 +1,10 @@
-import '../assets/styles/forms.css'
+
 import '../assets/styles/jugar.css'
 import { use, useState } from 'react'
 import { comenzarPartida, recuperarMazos, obtenerAtributosCartas, mandarJugada } from '../api/api';
 import { jwtDecode } from 'jwt-decode';
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const Jugar = () => {
   const [estadofondo, setEstadoFondo] = useState(false);
@@ -32,7 +34,12 @@ export const Jugar = () => {
   if (datos) {
     id_user = datos.usuario;
   }
-  
+  const navigate = useNavigate();
+  useEffect (() => {
+    if(!token){
+      navigate("/login");
+    }
+  }, [token,navigate]);
 
   const mostrarOcultar = async () => {
     setEstadoFondo(!estadofondo);
@@ -141,15 +148,13 @@ export const Jugar = () => {
   }
 
   return (
-    <div> 
+    <div className='PagJugar'> 
       <div> {!mostrar?  //boton comenzar a jugar
-      ( <button onClick={MostrarMenu} className='button-85'>  {mostrar? "" : "Comenzar a Jugar"}  </button>) 
+      ( <button onClick={MostrarMenu} className='botonComenzar'>  {mostrar? "" : "Comenzar a Jugar"}  </button>) 
       : ("")} 
       </div>        
       <div> {mostrar? 
         <>            
-          <div className="positablero"> <div className="fondoTablero"> </div> </div>
-
           <div className='opcionesLateral'>
             <table className='tablaCentrada'>
               <thead>
@@ -157,7 +162,7 @@ export const Jugar = () => {
               </thead>
               <tbody>
                 <tr>
-                  <td><select onChange={guardarSeleccion} defaultValue="">
+                  <td><select onChange={guardarSeleccion} defaultValue="" className='seleccion'>
                     <option value="" disabled > Selecciona un mazo </option>
                       {mazos.map((mazo, index) => (
                     <option key={index} value={mazo.id} >  {mazo.nombre}  </option>

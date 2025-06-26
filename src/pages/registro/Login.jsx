@@ -1,5 +1,7 @@
 import { login } from "../../api/api";
 import { useState } from "react";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import '../../assets/styles/editarUsuario.css';
 
 
@@ -10,6 +12,15 @@ export const Login = ({setIsLoggedIn}) => {
   });
   
   const [datos, setDatos] = useState(null);
+  const token = sessionStorage.getItem('Token');
+
+  const navigate = useNavigate();
+  useEffect (() => {
+    if(token){
+      navigate("/");
+      window.location.reload();
+    }
+  }, [token,navigate]);
 
   const handleChange = (e) => {
     setFormData({ 
@@ -23,6 +34,11 @@ export const Login = ({setIsLoggedIn}) => {
     try {
       const response = await login(formData); 
       setDatos(response.data);
+      console.log(datos);
+      if(datos.status){
+        formData.usuario="";
+        formData.password="";
+      }
       setIsLoggedIn(true);
     } catch (err) {
       if (err.response && err.response.data) {
@@ -41,7 +57,7 @@ export const Login = ({setIsLoggedIn}) => {
         </div>
         <div className="barra">
           <p>Password:</p> 
-          <input type="text" name="password" onChange={handleChange} value={formData.password}/>
+          <input type="password" name="password" onChange={handleChange} value={formData.password}/>
         </div>
         <button type="submit" className="botonEnviarForm" onChange={handleSubmit}>Enviar</button>
       </form>

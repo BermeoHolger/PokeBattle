@@ -1,5 +1,7 @@
 import { registrar } from "../../api/api";
 import { useState } from "react";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import '../../assets/styles/editarUsuario.css';
 
 export const RegistroPage = () => {
@@ -12,6 +14,15 @@ export const RegistroPage = () => {
     usuario: [],
     password: []
   });
+
+  const token = sessionStorage.getItem('Token');
+
+  const navigate = useNavigate();
+  useEffect (() => {
+    if(token){
+      navigate("/login");
+    }
+  }, [token,navigate]);
 
   const validarNombre = (nombre) => {
     const errores = [];

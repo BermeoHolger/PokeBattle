@@ -71,7 +71,7 @@ export const altaMazo = async (data) => {
   }
 };
 
-export const editarusuario = async (usuario, nuevosDatos,token) => {
+export const editarusuario = async (nuevosDatos,usuario) => {
   try {
     const response = await axios.put(`${api.defaults.baseURL}/usuarios/${usuario}`, nuevosDatos, {
       headers: {
@@ -155,3 +155,18 @@ export const mandarJugada = async (data)=>{
     throw error;
   }
 }
+
+export const getUsuario = async (id) => {
+  try {
+    const response = await axios.get(`${api.defaults.baseURL}/usuarios/${id}`,{
+      headers: {
+          'Content-Type': 'application/json', 
+          'Authorization': `Bearer ${token}`,         
+        }
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error al obtener estadísticas:', error);
+    throw error;
+  }
+  };
