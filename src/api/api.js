@@ -116,7 +116,6 @@ export const comenzarPartida = async (data,token) => {
     );
     return response;
   } catch (error) {
-    console.error('Error al llamar al enpoint de post/partidas:', error);
     throw error;
   }
 };
@@ -167,6 +166,21 @@ export const getUsuario = async (id) => {
     return response.data;
   } catch (error) {
     console.error('Error al obtener estadísticas:', error);
+    throw error;
+  }
+  };
+
+  export const getCartasMazo = async (id) => {
+  try {
+    const response = await axios.get(`${api.defaults.baseURL}/cartas/${id}`,{
+      headers: {
+          'Content-Type': 'application/json', 
+          'Authorization': `Bearer ${token}`,         
+        }
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error al obtener las Cartas:', error);
     throw error;
   }
   };

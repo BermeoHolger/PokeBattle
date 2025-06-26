@@ -140,7 +140,7 @@ export const AltaDeunMazo = () => {
       <h2>Crea Un Mazo</h2>
       <form onSubmit={handleSubmitMazo} className="formaM">
         <label>Nombre:</label> 
-        <input type="text" name="nombre" onChange={handleChangeMazo} value={Mazo.nombre} className="input"/>
+        <input type="text" name="nombre" onChange={handleChangeMazo} value={Mazo.nombre} className="input" maxLength={20} required/>
 
         <input type="submit" value="Crear"/>
       </form>
