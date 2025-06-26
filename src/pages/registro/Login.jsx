@@ -1,5 +1,9 @@
 import { login } from "../../api/api";
 import { useState } from "react";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import '../../assets/styles/editarUsuario.css';
+
 
 export const Login = ({setIsLoggedIn}) => {
   const [formData, setFormData] = useState({
@@ -8,6 +12,15 @@ export const Login = ({setIsLoggedIn}) => {
   });
   
   const [datos, setDatos] = useState(null);
+  const token = sessionStorage.getItem('Token');
+
+  const navigate = useNavigate();
+  useEffect (() => {
+    if(token){
+      navigate("/");
+      window.location.reload();
+    }
+  }, [token,navigate]);
 
   const handleChange = (e) => {
     setFormData({ 
@@ -21,6 +34,11 @@ export const Login = ({setIsLoggedIn}) => {
     try {
       const response = await login(formData); 
       setDatos(response.data);
+      console.log(datos);
+      if(datos.status){
+        formData.usuario="";
+        formData.password="";
+      }
       setIsLoggedIn(true);
     } catch (err) {
       if (err.response && err.response.data) {
@@ -31,19 +49,27 @@ export const Login = ({setIsLoggedIn}) => {
     }
   };
   return (
-    <div>
-      Logueate :)
-      <form onSubmit={handleSubmit}>
-        Usuario: <input type="text" name="usuario" onChange={handleChange} value={formData.usuario}/>
-        Clave: <input type="text" name="password" onChange={handleChange} value={formData.password}/>
-          <input type="submit" value="Enviar"/>
+    <div className="totalLogin">
+      <form onSubmit={handleSubmit} className="forma">
+        <div className="barra">
+          <p>Usuario:</p> 
+          <input type="text" name="usuario" onChange={handleChange} value={formData.usuario}/>
+        </div>
+        <div className="barra">
+          <p>Password:</p> 
+          <input type="password" name="password" onChange={handleChange} value={formData.password}/>
+        </div>
+        <button type="submit" className="botonEnviarForm" onChange={handleSubmit}>Enviar</button>
       </form>
-      {datos?.status &&(
-        <p>Status = {datos.status}</p>
-      )}
-      {datos?.error && (
-        <p>Error = {datos.error}</p>
-      )}
+
+      <div className="msj">
+        {datos?.status &&(
+          <p>Status = {datos.status}</p>
+        )}
+        {datos?.error && (
+          <p>Error = {datos.error}</p>
+        )}
+      </div>
     </div>
       
   )

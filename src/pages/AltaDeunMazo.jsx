@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { cartas } from "./../api/api";
 import { altaMazo } from "./../api/api";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import '../assets/styles/AltaMazo.css';
 
 
@@ -16,22 +18,40 @@ export const AltaDeunMazo = () => {
   const [error, setError] = useState(null);
   const [datosCartas, setDatosCartas] = useState(null);
   const [datos, setDatos] = useState(null);
+  const token = sessionStorage.getItem('Token');
+  const atributos = {1: 'Fuego',2: 'Agua',3: 'Tierra',4: 'Normal',5: 'Volador',6: 'Piedra',7: 'Planta'};
+
+  const navigate = useNavigate();
+  useEffect (() => {
+    if(!token){
+      navigate("/login");
+    }
+  }, [token,navigate]);
+
 
   const handleChangeCarta = (e) => {
     const { name, value } = e.target;
-
     setCarta({ 
       ...Carta, 
-      [name]: name === "atributo" 
-        ? (value === "" ? "" : parseInt(value, 10))
-        : value
+      [name]:value
     });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await cartas(Carta); 
+      let cartaAct = {
+          nombre: Carta.nombre,
+          atributo: Carta.atributo
+        }
+      if(Carta.atributo){
+        const atributoMin = Carta.atributo.toLowerCase();
+        const clave = Object.keys(atributos).find(clave => atributos[clave].toLowerCase() === atributoMin);
+        if(clave){
+          cartaAct.atributo = clave;
+        }
+      }      
+      const response = await cartas(cartaAct); 
       setDatosCartas(response); 
       setError();
     } 
@@ -118,9 +138,9 @@ export const AltaDeunMazo = () => {
     <div className="total">
       <div className="form-mazo">
       <h2>Crea Un Mazo</h2>
-      <form onSubmit={handleSubmitMazo}>
-        Nombre: 
-        <input type="text" name="nombre" onChange={handleChangeMazo} value={Mazo.nombre}/>
+      <form onSubmit={handleSubmitMazo} className="formaM">
+        <label>Nombre:</label> 
+        <input type="text" name="nombre" onChange={handleChangeMazo} value={Mazo.nombre} className="input" maxLength={20} required/>
 
         <input type="submit" value="Crear"/>
       </form>
@@ -144,12 +164,12 @@ export const AltaDeunMazo = () => {
 
       <div className="form-cartas">
       <h2>Elegi Tus 5 Cartas</h2>
-      <form onSubmit={handleSubmit}>
-        Nombre: 
-        <input type="text" name="nombre" onChange={handleChangeCarta} value={Carta.nombre} placeholder="opcional"/>
+      <form onSubmit={handleSubmit} className="formaC">
+        <label>Nombre:</label> 
+        <input type="text" name="nombre" className="input" onChange={handleChangeCarta} value={Carta.nombre} placeholder="opcional"/>
         
-        Atributo: 
-        <input type="number" name="atributo" onChange={handleChangeCarta} value={Carta.atributo} placeholder="opcional"/>
+        <label>Atributo:</label> 
+        <input type="text" name="atributo" className="input" onChange={handleChangeCarta} value={Carta.atributo} placeholder="opcional"/>
 
         <input type="submit" value="Buscar"/>
       </form>
@@ -171,7 +191,7 @@ export const AltaDeunMazo = () => {
                   <td>{item.nombre}</td>
                   <td>{item.ataque}</td>
                   <td>{item.ataque_nombre}</td>
-                  <td>{item.atributo_id}</td>
+                  <td>{atributos[item.atributo_id]}</td>
                 </tr>
               ))}
             </tbody>

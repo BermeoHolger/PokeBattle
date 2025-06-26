@@ -1,0 +1,59 @@
+.totalLogin{
+    margin-left: 10vw;
+}
+
+.forma{
+    display: flex;
+    align-items: flex-start;
+    place-content: center;
+    text-align: center;
+    margin-left: 10vw;
+    gap: 2.5vw;
+}
+
+.barra{
+    display: block;
+    width: 25vw;
+    height: 50vh;
+}
+
+.msj-condiciones{
+    min-height: 30vh;
+}
+
+.mensaje-error{
+    display: block;
+    top: 100%; 
+    left: 0;
+    color: #63000095;
+    font-weight: 650;
+}
+
+
+input{
+    width: 20vw;
+    height: 20px;
+}
+.msj{
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.barraBoton{
+    display: flex;
+}
+.botonEnviarForm{
+    margin-top: 9.5vh;
+    background-color: white;
+    color: 07193b;
+    height: 25px;
+    width: 80px;
+    border-radius: .5vw;
+}
+
+.botonEnviarForm:hover{
+    background-color: #19376e;
+    cursor: pointer;
+}

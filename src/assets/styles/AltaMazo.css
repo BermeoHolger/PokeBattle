@@ -4,9 +4,7 @@
     align-items: flex-start;
     place-content: center;
     text-align: center;
-    gap: 5vw;
-    margin-left: 11vw;
-    margin-right: 11vw;
+    gap: 10vw;
 }
 form{
     display: flex;
@@ -47,6 +45,7 @@ input[type="submit"]:hover{
 
 .form-cartas{
     text-align: center;
+    width: 45vw;
 }
 
 .form-mazo{
@@ -55,11 +54,13 @@ input[type="submit"]:hover{
     align-items: center;
     justify-content: center;
     gap: 2vw;
+    width: 25vw;
+    margin-left: 10vw;
 }
 
 .atributosCarta{
     display: flex;
-    margin: 0 1vw 0 auto;
+    margin: 0 1.5vw 0 auto;
     gap: 1vw;
 }
 
@@ -97,10 +98,12 @@ input[type="submit"]:hover{
     background-color: rgb(6, 3, 35);
 }
 
-
+.tablatotal th{
+    width: 7vw;
+}
 .tablatotal td {
   border-collapse: collapse;
-  padding: 1vw 2.8vw;
+  padding: 1vw 2.74vw;
   text-align: center;
   vertical-align: middle;
   background-color: #07193b;
@@ -118,4 +121,14 @@ input[type="submit"]:hover{
 .fila:hover td{
   background-color: #19376e;
   cursor: pointer; 
+}
+.filaDeCartas {
+  display: flex;
+  flex-wrap:nowrap;
+  gap: 1vw;
+  padding: 1vw;  
+  flex-shrink: 1; 
+  align-items: center;
+  justify-content:center;
+  text-align:justify;
 }

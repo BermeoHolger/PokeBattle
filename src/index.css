@@ -4,7 +4,7 @@
   font-weight: 400;
 
   color: rgba(255, 255, 255, 0.87);
-  background-color: #282749;
+  background-color: #31538d;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -26,7 +26,7 @@ h1 {
 }
 
 
-@media (prefers-color-scheme: light) {
+/*@media (prefers-color-scheme: light) {
   :root {
     color: #213547;
     background-color: #0c000035
