@@ -1,35 +1,117 @@
 
-.botonComenzar{
-  font-size: 2vw;
-  width: 30vw;
-  height: 10vh;
-  margin-left: 35vw;
-  background-color: hsl(219, 79%, 13%);
-  color: white;
+.PagJugar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; 
 }
+
 .opcionesLateral{
   margin-top: 8vh;
-  width: 20vw;
-  height: 88vh;
-  background-color: #19376e;
+  background-color: #31538d;
   display: flex;
   flex-direction: column; 
   align-items: center;
   justify-content: center; 
-  height: 100vh; 
+  min-width: 50vw;
+  margin-left: 25vw;
   gap: 35vh;
 }
+
 .tablaCentrada th{
   border: none;
 }
 .botonIniciar, .botonIniciarProhibido{
+  font-size: 1.5vw;
   width: 15vw;
   height: 10vh;
 }
+.tdSeleccion{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.msjSeleccion{
+  font-size: 1.5vw;
+}
 .seleccion{
+  cursor: pointer;
   text-align: center;
+  font-size: 1.5vw;
   height: 5vh;
-  width: 15vw;
-  margin-left: 2vw;
+  width: 20vw;
+  color: #07193b;
   border-radius: 1vw
+}
+.tablero{
+  background-image: url('../images/FondoTablero.png');
+  background-size: 100% 100%; 
+  background-position: center;
+  background-repeat: no-repeat;
+  
+  width: 100vw;
+  margin-top: 11vh;
+  height: 89vh;
+  display: flex;
+  flex-direction: column;  /* uno arriba del otro */
+  align-items: center;     /* centra horizontalmente */
+  justify-content: center; /* centra verticalmente */
+  gap: 15vh;
+
+}
+.filaDeCartasUser{
+  display: flex;
+  gap: 2.4vw;
+}
+.tituloCarta{
+  font-size: medium ;
+  color: rgb(110, 38, 38);
+}
+
+.filaDeCartasServer{
+  display: flex;
+  transform: translateY(-2.4vh);
+  gap: 2.4vw;
+
+}
+.cartasServer{
+  display: block;
+  font-size: medium;
+  text-align: center;
+  font-weight: 600;
+  height: 27vh;
+  width: 8vw;
+  background-color: white;
+  color: #07193b;;
+  border-radius: .5vw;
+}
+.botonCartas{
+  display: flex;            
+  flex-direction: column;   
+  justify-content: flex-start;
+  vertical-align: top;     
+  text-align: center;
+  font-size: small;
+  height: 27vh;
+  width: 8vw;
+  gap: 1vh;
+}
+.botonCartas:hover{
+  background-color: rgb(187, 186, 186);
+  color: #132f62;
+}
+.mensajeJugada{
+  position: fixed;
+  width: 20vw;
+  left: 2vw;
+  bottom: 40vh;
+  color: white;
+  text-align: center;
+}
+.botonPlayAgain{
+  position: fixed;
+  left: 4.5vw;
+  width: 15vw;
+  height: 10vh;
+  bottom: 30vh;
 }
