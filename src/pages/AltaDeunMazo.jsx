@@ -65,32 +65,19 @@ export const AltaDeunMazo = () => {
     }
   }
 
-    const handleCartaElgida = (filaData) =>{
-      const yaExiste = cartasElegidas.some(
-      (row) => row.id === filaData.id
-      );
+    const handleRowClick = (filaData) =>{
+      const yaExiste = cartasElegidas.some((row) => row.id === filaData.id);
 
       if ((!yaExiste) && (cartasElegidas.length < 5)) {
         setcartasElegidas((prevRows) => [...prevRows, filaData]);
-        const idsDeCartasElegidas = cartasElegidas.map(carta => carta.id);
-        setMazo(prevMazo => ({
-          ...prevMazo, 
-          id: idsDeCartasElegidas, 
-        }));
       }
-      else{
-
-      }
+      
     };
 
     const eliminarCarta = (id) =>{
       setcartasElegidas((prevCartas) =>
-      prevCartas.filter((carta) => carta.id !== id));
-      const idsDeCartasElegidas = cartasElegidas.map(carta => carta.id);
-        setMazo(prevMazo => ({
-          ...prevMazo, 
-          id: idsDeCartasElegidas, 
-        }));
+      prevCartas.filter((carta) => carta.id !== id)
+    );
     }
 
     const [Mazo, setMazo] = useState({
@@ -104,7 +91,12 @@ export const AltaDeunMazo = () => {
     setError();
     try {
       if((cartasElegidas.length ==5) && (Mazo.nombre)){
-        const response = await altaMazo(Mazo); 
+        const idsDeCartasElegidas = cartasElegidas.map(carta => carta.id);
+        const mazoParaEnviar = {
+          ...Mazo,
+          id: idsDeCartasElegidas,
+        };
+        const response = await altaMazo(mazoParaEnviar); 
         if(response.error){
           setError(response);
         }
@@ -191,7 +183,7 @@ export const AltaDeunMazo = () => {
             </thead>
             <tbody>
               {datosCartas.map((item) => (
-                <tr key={item.id} className="fila" onClick={() => handleCartaElgida(item)}> 
+                <tr key={item.id} className="fila" onClick={() => handleRowClick(item)}> 
                   <td>{item.nombre}</td>
                   <td>{item.ataque}</td>
                   <td>{item.ataque_nombre}</td>
@@ -204,10 +196,10 @@ export const AltaDeunMazo = () => {
         
       }
       </div>
-      <div className="mensajes">
+      <p className="mensajes">
         {error && <div>{JSON.stringify(error.error)}</div>}
         {datos && <div>{JSON.stringify(datos)}</div>}
-      </div>
+      </p>
     </div>
   )
 } 
