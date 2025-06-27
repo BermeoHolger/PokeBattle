@@ -88,7 +88,7 @@ export const editarusuario = async (nuevosDatos,usuario) => {
 };
 
 
-export const recuperarMazos = async (id_user,token) => {
+export const recuperarMazos = async (id_user) => {
   try {
     const response = await axios.get(`${api.defaults.baseURL}/usuarios/${id_user}/mazos`, 
       {
@@ -178,9 +178,40 @@ export const getUsuario = async (id) => {
           'Authorization': `Bearer ${token}`,         
         }
     });
-    return response.data;
+    return response;
   } catch (error) {
     console.error('Error al obtener las Cartas:', error);
     throw error;
   }
   };
+
+  export const eliminarMazo = async (mazo) => {
+  try {
+    const response = await axios.delete(`${api.defaults.baseURL}/mazos/${mazo}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+    return response; 
+  }
+  catch (error) {
+    console.error('Error al borrar el mazo', error);
+    throw error;
+  }
+};
+
+export const editarMazo = async (mazo_id, data) => {
+  try {
+    const response = await axios.put(`${api.defaults.baseURL}/mazos/${mazo_id}`, data, {
+      headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json'
+      }
+    });
+    return response;
+  }
+  catch (error){
+    console.error('Error al editar el nombre del mazo', error);
+    throw error;
+  }
+};
