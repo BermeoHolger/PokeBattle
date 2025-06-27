@@ -25,27 +25,28 @@ export const Jugar = () => {
   const [ultimaCartaServ, setUltimaCartaServ] = useState(null); 
   const atributos = {1: 'Fuego',2: 'Agua',3: 'Tierra',4: 'Normal',5: 'Volador',6: 'Piedra',7: 'Planta'};
   let token = sessionStorage.getItem("Token");
-  
   let datos = null;
   let id_user = null;
   
 
-  if (token) {
-    datos = jwtDecode(token);
-  }
-  if (datos) {
-    id_user = datos.usuario;
-  }
+ 
   const navigate = useNavigate();
   useEffect (() => {
+    const idMazo_Storage = sessionStorage.getItem("Mazo");
     if(!token){
       navigate("/login");
+    }
+    else{
+      datos = jwtDecode(token);
+    }
+    if (datos) {
+      id_user = datos.usuario;
     }
     const fetchDatos = async () => {
     try {
         const responseCartas = await getCartasMazo(1);
         if(responseCartas){
-          setCartasServerTotal(responseCartas);
+          setCartasServerTotal(responseCartas.data);
         }
         const response = await recuperarMazos(id_user,token);
         const mazosJsn = response.data;
@@ -62,13 +63,30 @@ export const Jugar = () => {
         }
       }
     }
-    fetchDatos();
-  }, [token,navigate]);
+    if(idMazo_Storage){
+      console.log(idMazo_Storage);
+      mostrarOcultar();
+    }
+    else{
+      fetchDatos();
+    }
+    
+  }, []);
+  
 
   const mostrarOcultar = async () => {
     setEstadoFondo(!estadofondo);
-    const data={id:Number(mazoSeleccionado)}
+    const idMazo_Storage = sessionStorage.getItem("Mazo");
+    let data=null;
+    if(idMazo_Storage){
+      data={id:Number(idMazo_Storage)};
+      sessionStorage.removeItem('Mazo');
+    }
+    else{
+      data={id:Number(mazoSeleccionado)}
+    }
     try{
+        console.log('comenzo');
         const response = await comenzarPartida(data,token);
         const aux = response.data.cartas;        
         setId_Partida(response.data.id_partida);
@@ -201,7 +219,7 @@ export const Jugar = () => {
                           <div className="tituloCarta">{carta.nombre}</div>
                           <div><span className="etiquetaCarta">Atributo:</span> {carta.atributo_nombre}</div>
                           <div><span className="etiquetaCarta">Ataque:</span> {carta.ataque_nombre}</div>
-                          <div><span className="etiquetaCarta">Poder de Ataque:</span> {carta.ataque}</div>
+                          <div><span className="etiquetaCarta">Poder:</span> <br /> {carta.ataque}</div>
                         </button>
                       )
                     }                                   
@@ -216,18 +234,22 @@ export const Jugar = () => {
            )}
            {ocultasServer.length > 0 && (
             <div className='ultCartaServer'>
+              <button className='botonCartasJugada'>
               <div className="tituloCarta">{ultimaCartaServ.nombre}</div>
               <div><span className="etiquetaCarta">Atributo:</span> <br />{(atributos[ultimaCartaServ.atributo_id])}</div>
               <div><span className="etiquetaCarta">Ataque:</span> <br /> {ultimaCartaServ.ataque_nombre}</div>
-              <div><span className="etiquetaCarta">Poder de Ataque:</span> {ultimaCartaServ.ataque}</div>
+              <div><span className="etiquetaCarta">Poder:</span> <br />{ultimaCartaServ.ataque}</div>
+              </button>
             </div> 
             )}
            {botonesOcultos.length > 0 && (
             <div className='ultCartaUser'>
+              <button className='botonCartasJugada'>
               <div className="tituloCarta">{ultimaCarta.nombre}</div>
               <div><span className="etiquetaCarta">Atributo:</span> <br /> {ultimaCarta.atributo_nombre}</div>
               <div><span className="etiquetaCarta">Ataque:</span> <br />{ultimaCarta.ataque_nombre}</div>
-              <div><span className="etiquetaCarta">Poder de Ataque:</span> {ultimaCarta.ataque}</div>
+              <div><span className="etiquetaCarta">Poder:</span> <br />{ultimaCarta.ataque}</div>
+              </button>
             </div>
             )}
           <div>
