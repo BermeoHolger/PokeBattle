@@ -178,7 +178,7 @@ export const getUsuario = async (id) => {
           'Authorization': `Bearer ${token}`,         
         }
     });
-    return response.data;
+    return response;
   } catch (error) {
     console.error('Error al obtener las Cartas:', error);
     throw error;

@@ -40,7 +40,7 @@ input[type="submit"]:hover{
 
 .mensajes{
     position: fixed;
-    bottom: 20px;
+    bottom: 40px;
 }
 
 .form-cartas{
