@@ -90,6 +90,7 @@ export const Jugar = () => {
         const response = await comenzarPartida(data,token);
         const aux = response.data.cartas;        
         setId_Partida(response.data.id_partida);
+        console.log("Cartas seteadas: ", aux);
         if(Array.isArray(aux)){
             setCartas(aux);
         }else{
@@ -209,6 +210,7 @@ export const Jugar = () => {
             </div>
             
             <div className="filaDeCartasUser">
+              {/*console.log(cartas)*/}
               {cartas ? 
                 (
                   cartas.map((carta) => (

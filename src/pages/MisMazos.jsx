@@ -37,6 +37,7 @@ export const MisMazos = () => {
         }
       } catch (err) {
         setError('Hubo un error al obtener los mazos');
+        setTimeout(() => setError(null), 3000)
       }
     };
   
@@ -62,6 +63,8 @@ export const MisMazos = () => {
     }
     catch(err){
       setError("Error al cargar las cartas del mazo");
+      setTimeout(() => setError(null), 3000)
+
       console.error (error);
     }
   }
@@ -71,21 +74,31 @@ export const MisMazos = () => {
   const eliminarMazoHandler = async (id_mazo) => {
     try {
       const response = await eliminarMazo(id_mazo);
-      const msjEliminado = response; //accede a data, si existe asigna el msj
-      setMensajeEliminacion(msjEliminado.data);
 
       // Si se elimina correctamente, vuelvo a cargar los mazos
       if (response.status === 200) {
+        const msjEliminado = response; //accede a data, si existe asigna el msj
+        setMensajeEliminacion(msjEliminado.data);
+        setTimeout(() => setMensajeEliminacion(null), 3000);
         setMazos(prevMazos => prevMazos.filter(mazo => mazo.id !== id_mazo));
       }
-      setTimeout(() => setMensajeEliminacion(null), 3000); //espera 3 segundos para dejar de mostrar el msje de eliminacion
+      
+    } catch (error) {
+      console.log("Error al borrar el mazo:", error);
 
-    } catch (err) {
+      if (error.response && error.response.data && error.response.data.error) {
+        console.log("El mensaje del backend es:", error.response.data.error);
+        setMensajeEliminacion(error.response.data.error);
+        setTimeout(() => setMensajeEliminacion(null), 3000);
+      } else {
+        console.log("Error desconocido");
+        setMensajeEliminacion("No se pudo eliminar el mazo.");
+        setTimeout(() => setMensajeEliminacion(null), 3000);
+      }
       setError("Error al eliminar el mazo");
-      console.error (error);
-    }
-};
-  
+      setTimeout(() => setError(null), 3000)
+    };
+  }
   //----- EDITAR MAZO
   const handleChange = (e) => {
     setFormData({ 
@@ -106,15 +119,16 @@ export const MisMazos = () => {
       
       const msjEdicion = response.data?.msj;
       setMensajeEdicion(msjEdicion);
+      setTimeout(() => setMensajeEdicion(null), 3000); 
       
       setEditarM(null); //vuelvo a setear en Null por si se quiere editar otro
       if (response.status === 200) {
         await traerMazos(); // actualiza la lista para q muestre el mazo editado
       }
-      setTimeout(() => setMensajeEdicion(null), 3000); //espera 3 segundos para dejar de mostrar el msje de edicion
 
     } catch (err) {
       setError("Error al editar el nombre del mazo");
+      setTimeout(() => setError(null), 3000)
       console.error (error);
     }
   }
@@ -123,7 +137,7 @@ export const MisMazos = () => {
   const jugarHandler = (id_mazo) => {
     sessionStorage.setItem('Mazo', id_mazo);
     navigate("/jugar");
-};
+  };
 
   return (
     <div>
@@ -131,19 +145,18 @@ export const MisMazos = () => {
 
       {/*----- si tengo msjes de eliminación*/}
       {mensajeEliminacion && (
-        <div>
-          {mensajeEliminacion.status}
-        </div>
+        <div>{mensajeEliminacion}</div>
       )}
+      
       {mazos.length === 0 ? ( //Si no hay mazos 
         <div>
         <div>No tenes mazos creados</div>
         <button onClick={() => {navigate("/alta");}}> Crear mazo </button>
         </div>
 
-      ):( /*----- Si tengo msjes de eliminación -----*/
+      ):( /*----- Si tengo msjes de error -----*/
       <div>
-        {error && <div>{error}</div>}
+        {error && <div> {error} </div>}
 
         {/*----- Si se quiere editar un mazo*/}
         {editarM && (
@@ -178,7 +191,7 @@ export const MisMazos = () => {
                   <button onClick={() => jugarHandler(mazoActual.id)}>Jugar con este mazo!</button>
                 </div> 
               </div>
-
+              
               {/* Mostrar cartas si el mazo está seleccionado */}
               {mazoVisible === index && 
               <div >

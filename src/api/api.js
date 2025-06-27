@@ -106,6 +106,7 @@ export const recuperarMazos = async (id_user) => {
 
 export const comenzarPartida = async (data,token) => {
   try {
+    console.log ("empieza el comenzarPartida: ");
     const response = await axios.post(`${api.defaults.baseURL}/partidas`, data, 
       {
         headers: {
@@ -114,6 +115,7 @@ export const comenzarPartida = async (data,token) => {
         }
       }
     );
+    
     return response;
   } catch (error) {
     throw error;
@@ -186,19 +188,22 @@ export const getUsuario = async (id) => {
   };
 
   export const eliminarMazo = async (mazo) => {
-  try {
-    const response = await axios.delete(`${api.defaults.baseURL}/mazos/${mazo}`, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    });
-    return response; 
-  }
-  catch (error) {
-    console.error('Error al borrar el mazo', error);
-    throw error;
-  }
-};
+    try {
+      const response = await axios.delete(`${api.defaults.baseURL}/mazos/${mazo}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      return response; 
+    }
+    catch (error) {
+      
+      console.error('Error al borrar el mazo');
+      console.log ("el error es: ", error);
+      throw error;
+     
+    }
+  };
 
 export const editarMazo = async (mazo_id, data) => {
   try {
