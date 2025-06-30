@@ -99,9 +99,29 @@
   top: 25vh;
 }
 
-.botonCartasJugada:hover{
+.botonCartasJugada:hover, .botonCartasJugadaServ:hover{
   background-color: rgb(39, 46, 117);
   cursor: default;
+}
+.botonCartasJugadaServ{
+  box-shadow: 0 0 10px rgb(207, 187, 69);
+  display: flex;            
+  flex-direction: column;   
+  color: rgb(255, 255, 255);
+  background-color: rgb(39, 46, 117);
+  background-image: repeating-radial-gradient(rgb(0, 0, 0) .5px, transparent 2px);
+  background-size: 20px 20px;
+  justify-content: flex-start;
+  vertical-align: top;     
+  text-align: center;
+  box-sizing: border-box;
+  border: 4px ridge #75759f;
+  font-size: small;
+  height: 27vh;
+  width: 8vw;
+  gap: 1vh;
+  margin-left: 1.2vw;
+  margin-right: 1.2vw;
 }
 
 .botonCartasJugada{
@@ -195,6 +215,10 @@
   width: 15vw;
   height: 10vh;
   bottom: 15vh;
+  border-radius: 10rem;
+}
+.botonPlayAgain:hover{
+  background-color:rgb(25, 58, 25) ;
 }
 .eliminarPartida{
   display: flex;

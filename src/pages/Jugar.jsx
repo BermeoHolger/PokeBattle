@@ -165,6 +165,9 @@ export const Jugar = () => {
   }
 
   return (
+    mazos.error? (
+      <div className='eliminarPartida'><p className='msj-Error'>{mazos.error}</p></div>
+    ): (
     error? (
     <div className='eliminarPartida'>
     <p className='msj-Error'>{error.error}</p>
@@ -246,7 +249,7 @@ export const Jugar = () => {
            )}
            {ocultasServer.length > 0 && (
             <div className='ultCartaServer'>
-              <button className='botonCartasJugada'>
+              <button className='botonCartasJugadaServ'>
               <div className="tituloCarta">{ultimaCartaServ.nombre}</div>
               <div><span className="etiquetaCarta">Atributo:</span> <br />{(atributos[ultimaCartaServ.atributo_id])}</div>
               <div><span className="etiquetaCarta">Ataque:</span> <br /> {ultimaCartaServ.ataque_nombre}</div>
@@ -281,5 +284,5 @@ export const Jugar = () => {
          
       </div>
       )
-  )
+  ))
 }

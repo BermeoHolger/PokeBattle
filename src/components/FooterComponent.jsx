@@ -4,15 +4,16 @@ import '../assets/styles/footer.css';
 const FooterComponent = () => {
   return (
     <footer className="piedepag">
-        <a>
+      <div className='nombres'>
           @Santiago Brea 
-        </a>
-        <a>
+          --
           @Holger Bermeo
-        </a>
-        <a>
+          --
           @Carlo Castro
-        </a>
+      </div>
+      <div className='ano'>
+          Año - 2025
+      </div>
     </footer>    
   );
 };
