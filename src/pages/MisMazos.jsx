@@ -156,9 +156,9 @@ export const MisMazos = () => {
       </div>
       
       {mazos.length === 0 ? ( //Si no hay mazos 
-        <div>
+        <div className="noHayMazos">
         <div>No tenes mazos creados</div>
-        <button onClick={() => {navigate("/alta");}}> Crear mazo </button>
+        <button className="botonCrear" onClick={() => {navigate("/alta");}}> Crear mazo </button>
         </div>
 
       ):( /*----- Si tengo msjes de error -----*/

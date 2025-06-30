@@ -39,6 +39,9 @@ input{
     bottom: 20px;
     left: 50%;
     transform: translateX(-50%);
+    color: black;
+    font-size: large;
+    font-weight: 700;
 }
 
 .barraBoton{
