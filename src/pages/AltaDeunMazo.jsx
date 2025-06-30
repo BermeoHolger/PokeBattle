@@ -102,6 +102,10 @@ export const AltaDeunMazo = () => {
         }
         else{
           setDatos('Mazo Creado Correctamente'); 
+          setMazo(prev => ({
+            ...prev,
+            nombre: ""
+          }));
         }
       }
       else if(cartasElegidas.length<5){
@@ -128,7 +132,12 @@ export const AltaDeunMazo = () => {
       }));
   };
  
-
+  const limpiarCampos = () => {
+    setCarta({
+      nombre: '',
+      atributo: ''
+    });
+  };
 
   return (
     <div className="total">
@@ -168,6 +177,7 @@ export const AltaDeunMazo = () => {
         <input type="text" name="atributo" className="input" onChange={handleChangeCarta} value={Carta.atributo} placeholder="opcional"/>
 
         <input type="submit" value="Buscar"/>
+        <button  className="boton-limpiar"  onClick={() => limpiarCampos()}>Limpiar</button>
       </form>
 
       {datosCartas && 
@@ -196,10 +206,10 @@ export const AltaDeunMazo = () => {
         
       }
       </div>
-      <p className="mensajes">
+      <div className="mensajes">
         {error && <div>{JSON.stringify(error.error)}</div>}
         {datos && <div>{JSON.stringify(datos)}</div>}
-      </p>
+      </div>
     </div>
   )
 } 

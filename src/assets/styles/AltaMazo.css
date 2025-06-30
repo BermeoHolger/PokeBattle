@@ -21,7 +21,7 @@ input[type="submit"]{
 }
 
 input[type="submit"]:hover{
-    background-color: #19376e;
+    background-color: rgb(25, 58, 25);
     color: white;
     cursor: pointer;
 }
@@ -34,18 +34,32 @@ input[type="submit"]:hover{
 
 }
 .boton-eliminar:hover{
-    background-color: #19376e;
+    background-color:  #63000095;
     cursor: pointer;
+}
+
+.boton-limpiar{
+    height: 25px;
+}
+.boton-limpiar:hover{
+    background-color: #63000095;
 }
 
 .mensajes{
     position: fixed;
+    width: 40vw;
+    text-align: center;
+    font-size: large;
+    font-weight: 700;
+    left: 30vw;
     bottom: 40px;
+    color: rgb(0, 0, 0);
 }
 
 .form-cartas{
     text-align: center;
     width: 45vw;
+    min-width: 45vw;
 }
 
 .form-mazo{
@@ -55,6 +69,7 @@ input[type="submit"]:hover{
     justify-content: center;
     gap: 2vw;
     width: 25vw;
+    min-width: 25vw;
     margin-left: 10vw;
 }
 
@@ -75,6 +90,7 @@ input[type="submit"]:hover{
     align-items: center;
     gap: 1vw;
     height: 39px;
+    min-width: 200px;
     border-radius: .5vw;
     
 }
@@ -82,6 +98,8 @@ input[type="submit"]:hover{
 .tablatotal{
     max-height: 20vw;
     max-width: 45vw;
+    min-height: 200px;
+    min-width: 500px;
     width: 100%;
     overflow-y: auto;
     border: 2px solid white;

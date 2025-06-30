@@ -12,7 +12,24 @@ export const getEstadisticas = async () => {
     const response = await axios.get(`${api.defaults.baseURL}/estadisticas`);
     return response.data;
   } catch (error) {
-    console.error('Error al obtener estadísticas:', error);
+    console.error('Error al Eliminar Partida:', error);
+    throw error;
+  }
+};
+
+export const eliminarPartida = async () => {
+  try {
+    const response = await axios.put(
+      `${api.defaults.baseURL}/eliminarPartida`,{},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error('Error al Eliminar Partida:', error);
     throw error;
   }
 };
@@ -106,7 +123,6 @@ export const recuperarMazos = async (id_user) => {
 
 export const comenzarPartida = async (data,token) => {
   try {
-    console.log ("empieza el comenzarPartida: ");
     const response = await axios.post(`${api.defaults.baseURL}/partidas`, data, 
       {
         headers: {

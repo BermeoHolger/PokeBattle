@@ -1,0 +1,61 @@
+.mazosTotal{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center; 
+    text-align: center;
+    margin-left: 27.5vw;
+    margin-top: 15vh;
+    margin-bottom: 8vh;
+    height: 100%;
+}
+.mazos{
+    width: 45vw;
+    height: 100%;    
+}
+.nombreMazo{
+    font-weight: 800;
+    background-color: rgb(192, 192, 192);
+    color: #11073b;
+}
+.opcionesMazo{
+    text-align: center;
+    background-color: #19376e;
+    border-radius: 2rem;
+    padding-bottom: 2vh;
+
+}
+.editar{
+    width: 45vw;
+    display: block;
+}
+.botonCancelar{
+    height: 25px;
+}
+
+.botonCrear{
+    width: 100px;
+    font-weight: 800;
+}
+.botonCrear:hover{
+    background-color: rgb(126, 126, 21);
+}
+.mazosExtra{
+    height: 25vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center; 
+    font-weight: 800;
+}
+.msjError{
+    text-align: center;
+    color: #000000;
+    font-weight: 700;
+}
+.botonEliminarMazo:hover, .botonCancelar:hover{
+    background-color: #63000095;
+}
+.botonJugar:hover {
+    background-color: rgb(25, 58, 25);
+}

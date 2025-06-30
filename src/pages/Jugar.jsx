@@ -1,7 +1,7 @@
 
 import '../assets/styles/jugar.css'
 import { use, useState } from 'react'
-import { comenzarPartida, recuperarMazos, obtenerAtributosCartas, mandarJugada, getCartasMazo } from '../api/api';
+import { comenzarPartida, eliminarPartida, recuperarMazos, obtenerAtributosCartas, mandarJugada, getCartasMazo } from '../api/api';
 import { jwtDecode } from 'jwt-decode';
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -64,7 +64,6 @@ export const Jugar = () => {
       }
     }
     if(idMazo_Storage){
-      console.log(idMazo_Storage);
       mostrarOcultar();
     }
     else{
@@ -86,11 +85,10 @@ export const Jugar = () => {
       data={id:Number(mazoSeleccionado)}
     }
     try{
-        console.log('comenzo');
         const response = await comenzarPartida(data,token);
+        console.log(response);
         const aux = response.data.cartas;        
         setId_Partida(response.data.id_partida);
-        console.log("Cartas seteadas: ", aux);
         if(Array.isArray(aux)){
             setCartas(aux);
         }else{
@@ -101,9 +99,11 @@ export const Jugar = () => {
         console.log(response2.data);
     } catch (err) {
        if (err.response && err.response.data) {
-          setCartas(err.response.data);  // Caso error: setea el error que viene del backend
+          console.log(err.response.data);
+          setError(err.response.data);  // Caso error: setea el error que viene del backend
+          console.log(error);
         } else {
-          setCartas('Error desconocido');  // Por si no viene nada
+          setError('Error desconocido');  // Por si no viene nada
         }
     }
   }
@@ -159,8 +159,18 @@ export const Jugar = () => {
         }
     }
   }
+  const eliminarPartidaEmpezada= async()=>{
+    const partida = await eliminarPartida();
+    window.location.reload();
+  }
 
   return (
+    error? (
+    <div className='eliminarPartida'>
+    <p className='msj-Error'>{error.error}</p>
+    <button  className="boton-eliminarPartida"  onClick={() => eliminarPartidaEmpezada()}> Eliminar Partida Empezada </button>
+    </div>
+    ):(
     <div className='PagJugar'> 
           {!estadofondo ? (
           <div className='opcionesLateral'>
@@ -255,9 +265,6 @@ export const Jugar = () => {
             </div>
             )}
           <div>
-            {error &&
-              <p>Error {error}</p>
-            }
             {mostrarResultado &&
             <p className='mensajeJugada'>{resultado_jugada}</p>
             }
@@ -273,5 +280,6 @@ export const Jugar = () => {
           </div>
          
       </div>
+      )
   )
 }
