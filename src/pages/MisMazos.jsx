@@ -5,6 +5,7 @@ import { editarMazo } from "../api/api";
 import React, { useEffect, useState } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import { useNavigate } from "react-router-dom";
+import '../assets/styles/misMazos.css'
 
 export const MisMazos = () => {
   let navigate = useNavigate();
@@ -18,6 +19,7 @@ export const MisMazos = () => {
   });
   const [mensajeEliminacion, setMensajeEliminacion] = useState(null);
   const [mazos, setMazos] = useState([]);
+  const atributos = {1: 'Fuego',2: 'Agua',3: 'Tierra',4: 'Normal',5: 'Volador',6: 'Piedra',7: 'Planta'};
 
   //----- TRAER MAZOS
   const traerMazos = async () => {
@@ -73,12 +75,14 @@ export const MisMazos = () => {
   
   const eliminarMazoHandler = async (id_mazo) => {
     try {
+      const confirmacion = window.confirm("¿Estás seguro que querés eliminar el Mazo?");
+      if (!confirmacion) return; // Si el usuario cancela, no se hace nada
       const response = await eliminarMazo(id_mazo);
 
       // Si se elimina correctamente, vuelvo a cargar los mazos
       if (response.status === 200) {
         const msjEliminado = response; //accede a data, si existe asigna el msj
-        setMensajeEliminacion(msjEliminado.data);
+        setMensajeEliminacion(msjEliminado.data.status);
         setTimeout(() => setMensajeEliminacion(null), 3000);
         setMazos(prevMazos => prevMazos.filter(mazo => mazo.id !== id_mazo));
       }
@@ -140,13 +144,16 @@ export const MisMazos = () => {
   };
 
   return (
-    <div>
-      <h2>Tus mazos</h2>
+    <div className="mazosTotal">
+      <h2>Tus Mazos</h2>
 
       {/*----- si tengo msjes de eliminación*/}
-      {mensajeEliminacion && (
-        <div>{mensajeEliminacion}</div>
-      )}
+      <div className="msjError">
+        {error && <div> {error} </div>}
+        {mensajeEliminacion && (
+          <div>{mensajeEliminacion}</div>
+        )}
+      </div>
       
       {mazos.length === 0 ? ( //Si no hay mazos 
         <div>
@@ -156,20 +163,22 @@ export const MisMazos = () => {
 
       ):( /*----- Si tengo msjes de error -----*/
       <div>
-        {error && <div> {error} </div>}
+       
 
         {/*----- Si se quiere editar un mazo*/}
         {editarM && (
-          <div>
-            <form onSubmit={handleSubmit}>
-              Nombre nuevo: <input
+          <div >
+            <form onSubmit={handleSubmit}className="editar">
+              <p>Nuevo Nombre:</p>
+              <button className="botonCancelar" onClick={() => setEditarM (null)}>Cancelar edicion</button>
+               <input
                 type="text"
                 name="nombre"  
                 onChange={handleChange}
                 value={formData.nombre}
                 />
                 <input type="submit" value="Editar"/>
-              <button onClick={() => setEditarM (null)}>Cancelar edicion</button>
+              
             </form>
             <p>
              {mensajeEdicion}
@@ -177,24 +186,24 @@ export const MisMazos = () => {
           </div>
         )}
 
-        <div> 
+        <div className="mazos"> 
           {mazos.map((mazoActual, index) => ( //Muestro todos los mazos 
             <div key={index}> 
               <div key={index}>
-                <div>
-                  <h4>{mazoActual.nombre} </h4> 
+                <div className="opcionesMazo">
+                  <h3 className="nombreMazo">{mazoActual.nombre} </h3> 
                   <button onClick={() => mostrarCartas(index, mazoActual.id)}>
                     {mazoVisible === index ? "Ocultar mazo" : "Ver mazo"}
                   </button>
-                  <button onClick={() => eliminarMazoHandler(mazoActual.id)}>Eliminar mazo</button>
+                  <button className="botonEliminarMazo" onClick={() => eliminarMazoHandler(mazoActual.id)}>Eliminar mazo</button>
                   <button onClick={() => setEditarM (mazoActual.id)}>Editar mazo</button>
-                  <button onClick={() => jugarHandler(mazoActual.id)}>Jugar con este mazo!</button>
+                  <button className="botonJugar" onClick={() => jugarHandler(mazoActual.id)}>Jugar con este mazo!</button>
                 </div> 
               </div>
               
               {/* Mostrar cartas si el mazo está seleccionado */}
               {mazoVisible === index && 
-              <div >
+              <div className="mazo">
                 <table className="tablatotal">
                   <thead className="tabla">
                     <tr>
@@ -210,7 +219,7 @@ export const MisMazos = () => {
                         <td>{item.nombre}</td>
                         <td>{item.ataque}</td>
                         <td>{item.ataque_nombre}</td>
-                        <td>{item.atributo_id}</td>
+                        <td>{atributos[item.atributo_id]}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -220,13 +229,13 @@ export const MisMazos = () => {
             </div> //el .map de mazos termina en la llave de abajo
           ))}
           {mazos.length < 3 && (
-            <div>
+            <div className="mazosExtra">
               {mazos.length === 2 ? (
                 <p>Todavía podés crear un mazo más</p>
               ) : (
                 <p>Todavía podés crear 2 mazos más</p>
               )}
-              <button onClick={() => { navigate("/alta"); }}>Crear mazo</button>
+              <button className="botonCrear" onClick={() => { navigate("/alta"); }}>Crear mazo</button>
             </div>
           )}
 

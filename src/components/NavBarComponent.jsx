@@ -27,6 +27,7 @@ export const NavBarComponent = ({isLoggedIn,setIsLoggedIn}) => {
   
       fetchDatos();}
     }, [token]);
+    
   return (
     <nav className="navBar">
     
@@ -37,7 +38,11 @@ export const NavBarComponent = ({isLoggedIn,setIsLoggedIn}) => {
           <button onClick={() => {navigate("/jugar");}}> Jugar </button>
           <button onClick={() => {navigate("/mismazos");}}> Mis Mazos </button>
           <button onClick={() => {navigate("/editarusuario");}}> Editar Usuario </button>
-          <button onClick={() => {navigate("/"); sessionStorage.removeItem('Token'); setIsLoggedIn(false);}}> Logout </button>
+          <button onClick={() => {
+            const confirmacion = window.confirm("¿Estás seguro que querés cerrar sesion?");
+             if (!confirmacion) return; // Si el usuario cancela, no se hace nada
+             navigate("/");
+             sessionStorage.removeItem('Token'); setIsLoggedIn(false);}}> Logout </button>
           </div>         
           </>
         ): (
