@@ -9,6 +9,9 @@
     margin-bottom: 8vh;
     height: 100%;
 }
+.titulo {
+    height: 8vh;
+}
 .mazos{
     width: 45vw;
     height: 100%;    
@@ -55,7 +58,7 @@
 }
 .msjError{
     text-align: center;
-    color: #000000;
+    color: #ff0000;
     font-weight: 700;
 }
 .botonEliminarMazo:hover, .botonCancelar:hover{

@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import { useNavigate } from "react-router-dom";
 import '../styles/misMazos.css'
+import NotiToast from "../components/NotiToast";
 
 export const MisMazos = () => {
   let navigate = useNavigate();
@@ -17,7 +18,8 @@ export const MisMazos = () => {
   const [formData, setFormData] = useState({
   nombre: ''
   });
-  const [mensajeEliminacion, setMensajeEliminacion] = useState(null);
+  const [mensajeErrorEliminacion, setMensajeErrorEliminacion] = useState(null);
+  const [mensajeMazoEliminado, setMensajeMazoEliminado] = useState(null);
   const [mazos, setMazos] = useState([]);
   const atributos = {1: 'Fuego',2: 'Agua',3: 'Tierra',4: 'Normal',5: 'Volador',6: 'Piedra',7: 'Planta'};
 
@@ -38,8 +40,7 @@ export const MisMazos = () => {
           setMazos(response.data)
         }
       } catch (err) {
-        setError('Hubo un error al obtener los mazos');
-        setTimeout(() => setError(null), 3000)
+        setError(err.response.data.error);
       }
     };
   
@@ -82,8 +83,8 @@ export const MisMazos = () => {
       // Si se elimina correctamente, vuelvo a cargar los mazos
       if (response.status === 200) {
         const msjEliminado = response; //accede a data, si existe asigna el msj
-        setMensajeEliminacion(msjEliminado.data.status);
-        setTimeout(() => setMensajeEliminacion(null), 3000);
+        setMensajeMazoEliminado(msjEliminado.data.status);
+        setTimeout(() => setMensajeMazoEliminado(null), 3000);
         setMazos(prevMazos => prevMazos.filter(mazo => mazo.id !== id_mazo));
       }
       
@@ -92,18 +93,24 @@ export const MisMazos = () => {
 
       if (error.response && error.response.data && error.response.data.error) {
         console.log("El mensaje del backend es:", error.response.data.error);
-        setMensajeEliminacion(error.response.data.error);
-        setTimeout(() => setMensajeEliminacion(null), 3000);
+        setMensajeErrorEliminacion(error.response.data.error);
+        //setTimeout(() => setMensajeErrorEliminacion(null), 3000);
       } else {
         console.log("Error desconocido");
-        setMensajeEliminacion("No se pudo eliminar el mazo.");
-        setTimeout(() => setMensajeEliminacion(null), 3000);
+        setMensajeErrorEliminacion("No se pudo eliminar el mazo.");
+        //setTimeout(() => setMensajeErrorEliminacion(null), 3000);
       }
       setError("Error al eliminar el mazo");
       setTimeout(() => setError(null), 3000)
     };
   }
   //----- EDITAR MAZO
+  const editarMazoHandler  = (id_mazo, nombre_mazo) => {
+    
+    setFormData( {"nombre":nombre_mazo} );
+    setEditarM (id_mazo)
+  }
+  
   const handleChange = (e) => {
     setFormData({ 
       ...formData, 
@@ -145,19 +152,20 @@ export const MisMazos = () => {
 
   return (
     <div className="mazosTotal">
-      <h2>Tus Mazos</h2>
+      <h2 className = "titulo">Tus Mazos</h2>
 
       {/*----- si tengo msjes de eliminación*/}
-      <div className="msjError">
-        {error && <div> {error} </div>}
-        {mensajeEliminacion && (
-          <div>{mensajeEliminacion}</div>
+      
+        {error && <NotiToast mensaje = {error} tipo="error"/>}
+        {mensajeErrorEliminacion && (
+          <NotiToast mensaje = {mensajeErrorEliminacion} tipo="error" />
         )}
-      </div>
+        {mensajeMazoEliminado && (
+          <NotiToast mensaje = {mensajeMazoEliminado} tipo="exito" />
+        )}
       
       {mazos.length === 0 ? ( //Si no hay mazos 
         <div className="noHayMazos">
-        <div>No tenes mazos creados</div>
         <button className="botonCrear" onClick={() => {navigate("/alta");}}> Crear mazo </button>
         </div>
 
@@ -173,7 +181,7 @@ export const MisMazos = () => {
               <button className="botonCancelar" onClick={() => setEditarM (null)}>Cancelar edicion</button>
                <input
                 type="text"
-                name="nombre"  
+                name="nombre"
                 onChange={handleChange}
                 value={formData.nombre}
                 />
@@ -196,7 +204,7 @@ export const MisMazos = () => {
                     {mazoVisible === index ? "Ocultar mazo" : "Ver mazo"}
                   </button>
                   <button className="botonEliminarMazo" onClick={() => eliminarMazoHandler(mazoActual.id)}>Eliminar mazo</button>
-                  <button onClick={() => setEditarM (mazoActual.id)}>Editar mazo</button>
+                  <button onClick={() => editarMazoHandler (mazoActual.id, mazoActual.nombre)}>Editar mazo</button>
                   <button className="botonJugar" onClick={() => jugarHandler(mazoActual.id)}>Jugar con este mazo!</button>
                 </div> 
               </div>
