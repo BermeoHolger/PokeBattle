@@ -96,6 +96,7 @@ export const MisMazos = () => {
       setTimeout(() => setError(null), 3000)
     };
   }
+
   const editarMazoHandler  = (id_mazo, nombre_mazo) => {
     
     setFormData( {"nombre":nombre_mazo} );
@@ -160,9 +161,6 @@ export const MisMazos = () => {
       ):( 
       <div>
        
-
-        
-
         <div className="mazos"> 
           {mazos.map((mazoActual, index) => (  
             <div key={index}> 
