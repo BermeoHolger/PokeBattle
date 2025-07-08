@@ -1,4 +1,3 @@
-import logo from '../assets/images/logo.svg'
 import '../styles/footer.css';
 
 const FooterComponent = () => {
@@ -11,7 +10,7 @@ const FooterComponent = () => {
           --
           @Carlo Castro
       </div>
-      <div className='ano'>
+      <div className='año'>
           Año - 2025
       </div>
     </footer>    

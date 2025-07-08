@@ -1,9 +1,8 @@
 
 import '../styles/navBar.css';
-import { useState } from 'react';
-import { useEffect } from 'react';
+import { useState,useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getUsuario } from '../api/api';
+import { getUsuario } from '../services/UsuarioLinkedServices';
 import { jwtDecode } from 'jwt-decode';
 
 export const NavBarComponent = ({isLoggedIn,setIsLoggedIn}) => {
@@ -31,7 +30,7 @@ export const NavBarComponent = ({isLoggedIn,setIsLoggedIn}) => {
   return (
     <nav className="navBar">
     
-        {(isLoggedIn || token) ? ( //agregar el or token 
+        {(isLoggedIn || token) ? ( 
           <>
           <span className='mensaje'>Hola {nombre}</span>
           <div className='botones'>
