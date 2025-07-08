@@ -1,3 +1,4 @@
+
 import '../styles/NotiToast.css';
 import { useEffect, useState } from 'react';
 const NotiToast = ({mensaje,tipo}) => {
@@ -7,18 +8,18 @@ useEffect(()=>{
     setMostrarNoti(true);
     setTimeout(() => setMostrarNoti(false), 3000); 
 },[mensaje]);
+
     return (
         <div>
-        {mostrarNoti?(             
+        {mostrarNoti?(
             <div className='toast-container'>
                 <div className={tipo==="exito" ? "toast": "toast-error"}>
-                    <p className='texto-notificacion'>{mensaje}</p>                    
+                    <p className='texto-notificacion'>{mensaje}</p>
                 </div>
-                
             </div>)
         :(<></>)
-        }    
-        </div>          
+        }
+        </div>
     );
 };
 export default NotiToast;
