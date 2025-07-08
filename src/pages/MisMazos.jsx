@@ -105,6 +105,12 @@ export const MisMazos = () => {
     };
   }
   //----- EDITAR MAZO
+  const editarMazoHandler  = (id_mazo, nombre_mazo) => {
+    
+    setFormData( {"nombre":nombre_mazo} );
+    setEditarM (id_mazo)
+  }
+  
   const handleChange = (e) => {
     setFormData({ 
       ...formData, 
@@ -175,7 +181,7 @@ export const MisMazos = () => {
               <button className="botonCancelar" onClick={() => setEditarM (null)}>Cancelar edicion</button>
                <input
                 type="text"
-                name="nombre"  
+                name="nombre"
                 onChange={handleChange}
                 value={formData.nombre}
                 />
@@ -198,7 +204,7 @@ export const MisMazos = () => {
                     {mazoVisible === index ? "Ocultar mazo" : "Ver mazo"}
                   </button>
                   <button className="botonEliminarMazo" onClick={() => eliminarMazoHandler(mazoActual.id)}>Eliminar mazo</button>
-                  <button onClick={() => setEditarM (mazoActual.id)}>Editar mazo</button>
+                  <button onClick={() => editarMazoHandler (mazoActual.id, mazoActual.nombre)}>Editar mazo</button>
                   <button className="botonJugar" onClick={() => jugarHandler(mazoActual.id)}>Jugar con este mazo!</button>
                 </div> 
               </div>
