@@ -1,5 +1,5 @@
 
-import '../assets/styles/jugar.css'
+import '../styles/jugar.css'
 import { use, useState } from 'react'
 import { comenzarPartida, eliminarPartida, recuperarMazos, obtenerAtributosCartas, mandarJugada, getCartasMazo } from '../api/api';
 import { jwtDecode } from 'jwt-decode';
@@ -23,14 +23,14 @@ export const Jugar = () => {
   const [PlayAgainButton,setPlayAgainButton]=useState(false);
   const [ultimaCarta, setUltimaCarta] = useState(null); 
   const [ultimaCartaServ, setUltimaCartaServ] = useState(null); 
+  const navigate = useNavigate();
   const atributos = {1: 'Fuego',2: 'Agua',3: 'Tierra',4: 'Normal',5: 'Volador',6: 'Piedra',7: 'Planta'};
   let token = sessionStorage.getItem("Token");
   let datos = null;
   let id_user = null;
   
-
  
-  const navigate = useNavigate();
+  
   useEffect (() => {
     const idMazo_Storage = sessionStorage.getItem("Mazo");
     if(!token){
@@ -43,26 +43,27 @@ export const Jugar = () => {
       id_user = datos.usuario;
     }
     const fetchDatos = async () => {
-    try {
-        const responseCartas = await getCartasMazo(1);
-        if(responseCartas){
-          setCartasServerTotal(responseCartas.data);
+      try {
+          const responseCartas = await getCartasMazo(1);
+          if(responseCartas){
+            setCartasServerTotal(responseCartas.data);
+          }
+          const response = await recuperarMazos(id_user,token);
+          const mazosJsn = response.data;
+          if (Array.isArray(mazosJsn)) {
+            setMazos(mazosJsn);
+          } else {          
+            setMazos([]);
+          }        
+        } catch (err) {
+          if (err.response && err.response.data) {
+            setMazos(err.response.data);  // Caso error: setea el error que viene del backend
+          } else {
+            setMazos('Error desconocido');  // Por si no viene nada
+          }
         }
-        const response = await recuperarMazos(id_user,token);
-        const mazosJsn = response.data;
-        if (Array.isArray(mazosJsn)) {
-          setMazos(mazosJsn);
-        } else {          
-          setMazos([]);
-        }        
-      } catch (err) {
-        if (err.response && err.response.data) {
-          setMazos(err.response.data);  // Caso error: setea el error que viene del backend
-        } else {
-          setMazos('Error desconocido');  // Por si no viene nada
-        }
-      }
     }
+    
     if(idMazo_Storage){
       mostrarOcultar();
     }
@@ -168,86 +169,84 @@ export const Jugar = () => {
     mazos.error? (
       <div className='eliminarPartida'><p className='msj-Error'>{mazos.error}</p></div>
     ): (
-    error? (
-    <div className='eliminarPartida'>
-    <p className='msj-Error'>{error.error}</p>
-    <button  className="boton-eliminarPartida"  onClick={() => eliminarPartidaEmpezada()}> Eliminar Partida Empezada </button>
-    </div>
-    ):(
-    <div className='PagJugar'> 
+      error? (
+        <div className='eliminarPartida'>
+        <p className='msj-Error'>{error.error}</p>
+        <button  className="boton-eliminarPartida"  onClick={eliminarPartidaEmpezada}> Eliminar Partida Empezada </button>
+        </div>
+      ):(
+        <div className='PagJugar'> 
           {!estadofondo ? (
-          <div className='opcionesLateral'>
-            <table className='tablaCentrada'>
-              <thead>
-                <tr><th className='msjSeleccion'>Seleccione el mazo a jugar</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td className='tdSeleccion'><select onChange={guardarSeleccion} defaultValue="" className='seleccion'>
-                    <option value="" disabled > Selecciona un mazo </option>
-                      {mazos.map((mazo, index) => (
-                    <option key={index} value={mazo.id}>  {mazo.nombre}  </option>
-                      ))}
-                  </select></td>
-                </tr>
-              </tbody>
-            </table>
-            <div>{!estadofondo? 
-              (mazoSeleccionado? 
-                (<button onClick={mostrarOcultar} className='botonIniciar'> Iniciar Partida </button>)
-              :
-                (<button disabled className='botonIniciarProhibido'> Iniciar Partida </button>)
-            )
-            :(<></>)
-            }           
-            </div>
-          </div>
-          ):(
-          <div className='tablero'>
-            <div className="filaDeCartasServer">
-              {cartasServer? 
-                (
-                  cartasServer.map( 
-                    ([id, atributo])=> (
-                      <div key={id} > 
-                        {!ocultasServer.includes(Number(id)) && 
-                          ( <div key={id}className="cartasServer "><p className='etiquetaServer'>Atributo</p>{atributo} </div> )
-                        }
-                      </div>
+              <div className='opcionesLateral'>
+                <table className='tablaCentrada'>
+                  <thead>
+                    <tr><th className='msjSeleccion'>Seleccione el mazo a jugar</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td className='tdSeleccion'><select onChange={guardarSeleccion} defaultValue="" className='seleccion'>
+                        <option value="" disabled > Selecciona un mazo </option>
+                          {mazos.map((mazo, index) => (
+                        <option key={index} value={mazo.id}>  {mazo.nombre}  </option>
+                          ))}
+                      </select></td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div>
+                  {!estadofondo&&( 
+                    (mazoSeleccionado? 
+                      (<button onClick={mostrarOcultar} className='botonIniciar'> Iniciar Partida </button>)
+                      :
+                      (<button disabled className='botonIniciarProhibido'> Iniciar Partida </button>)
                     )
                   )
-                )
-                :
-                (<></>)
-              }
-            </div>
-            
-            <div className="filaDeCartasUser">
-              {/*console.log(cartas)*/}
-              {cartas ? 
-                (
-                  cartas.map((carta) => (
-                  <div key={carta.id} > 
-                    {!botonesOcultos.includes(carta.id) && (
-                      
-                        <button onDoubleClick={ ()=> manejarJugada(carta.id)}  className="botonCartas" >
-                          <div className="tituloCarta">{carta.nombre}</div>
-                          <div><span className="etiquetaCarta">Atributo:</span> {carta.atributo_nombre}</div>
-                          <div><span className="etiquetaCarta">Ataque:</span> {carta.ataque_nombre}</div>
-                          <div><span className="etiquetaCarta">Poder:</span> <br /> {carta.ataque}</div>
-                        </button>
+                  }           
+                </div>
+              </div>
+            ):(
+              <div className='tablero'>
+              
+                <div className="filaDeCartasServer">
+                  {cartasServer&&(                
+                      cartasServer.map( 
+                        ([id, atributo])=> (
+                          <div key={id} > 
+                            {!ocultasServer.includes(Number(id)) && 
+                              ( <div key={id}className="cartasServer "><p className='etiquetaServer'>Atributo <br/> <br/> {atributo}</p></div> )
+                            }
+                          </div>
+                        )
                       )
-                    }                                   
-                  </div> ))                          
-                )
-                : 
-                (<></>)
-              }
-            </div>
+                  )             
+                  }
+                </div>
+                
+                <div className="filaDeCartasUser">              
+                  {cartas &&  (              
+                    cartas.map((carta) => (
+                      <div key={carta.id} > 
+                        {!botonesOcultos.includes(carta.id) && 
+                          (
+                            <button onDoubleClick={ ()=> manejarJugada(carta.id)}  className="botonCartas" >
+                              <div className="tituloCarta">{carta.nombre}</div>
+                              <div><span className="etiquetaCarta">Atributo:</span> {carta.atributo_nombre}</div>
+                              <div><span className="etiquetaCarta">Ataque:</span> {carta.ataque_nombre}</div>
+                              <div><span className="etiquetaCarta">Poder:</span> <br /> {carta.ataque}</div>
+                            </button>
+                          )
+                        }                                   
+                      </div> 
+                    ))
+                  )                          
+                  }
+                </div>
 
-          </div>
-           )}
-           {ocultasServer.length > 0 && (
+              </div>
+            )
+          }
+
+          {ocultasServer.length > 0 && (
             <div className='ultCartaServer'>
               <button className='botonCartasJugadaServ'>
               <div className="tituloCarta">{ultimaCartaServ.nombre}</div>
@@ -256,8 +255,10 @@ export const Jugar = () => {
               <div><span className="etiquetaCarta">Poder:</span> <br />{ultimaCartaServ.ataque}</div>
               </button>
             </div> 
-            )}
-           {botonesOcultos.length > 0 && (
+            )
+          }
+
+          {botonesOcultos.length > 0 && (
             <div className='ultCartaUser'>
               <button className='botonCartasJugada'>
               <div className="tituloCarta">{ultimaCarta.nombre}</div>
@@ -266,23 +267,26 @@ export const Jugar = () => {
               <div><span className="etiquetaCarta">Poder:</span> <br />{ultimaCarta.ataque}</div>
               </button>
             </div>
-            )}
+            )
+          }
+
           <div>
             {mostrarResultado &&
             <p className='mensajeJugada'>{resultado_jugada}</p>
             }
           </div>
 
-          <div>{PlayAgainButton? 
-          (<a href='/jugar'>
-            <button className='botonPlayAgain'> ¿Jugar otra vez? </button>
-          </a>)
-          :
-          (<></>)
-          }
+          <div>
+            {PlayAgainButton&& (         
+              <a href='/jugar'>
+                <button className='botonPlayAgain'> ¿Jugar otra vez? </button>
+              </a>              
+              )
+            }
           </div>
-         
-      </div>
+                   
+        </div>
       )
-  ))
+    )
+  )
 }

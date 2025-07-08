@@ -2,9 +2,9 @@ import { editarusuario } from "../../api/api";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import '../../assets/styles/editarUsuario.css'
+import '../../styles/editarUsuario.css'
 import { jwtDecode } from 'jwt-decode';
-
+import NotiToast from "../../components/NotiToast";
 
 
 export const EditarUsuario = () => {
@@ -161,11 +161,13 @@ export const EditarUsuario = () => {
             <button type="submit" className="botonEnviarForm">Actualizar</button>
             </div>
           </form>  
-        </div>
-        <div className="msj">
-        {datosback?.estado && <p className="formularios"> Estado --  {datosback.estado} </p>}
-        {datosback?.error && <p className="formularios"> Error -- {datosback.error} </p> }
-        </div>
+        </div>        
+        {datosback?.estado && 
+        <NotiToast mensaje={datosback.estado} tipo="exito"/>
+        }
+        {datosback?.error && 
+        <NotiToast mensaje={datosback.error} tipo="error"/>
+        }        
       </div>
   )
 }

@@ -21,7 +21,11 @@
 .tablaCentrada th{
   border: none;
 } 
-.botonIniciar:hover, .botonIniciarProhibido:hover{
+.botonIniciarProhibido:hover{
+  background-color: rgb(98, 13, 13);
+  cursor:not-allowed;  
+}
+.botonIniciar:hover{
   background-color: rgb(25, 58, 25);
 }
 .botonIniciar, .botonIniciarProhibido{
@@ -79,7 +83,7 @@
   font-size: medium ;
   margin-top: 5px;
   color: rgb(255, 255, 255);
-  font-weight: 750;
+  font-weight: 750;  
 }
 
 .etiquetaCarta{
@@ -147,6 +151,8 @@
 
 .etiquetaServer{
   font-weight: 900;
+  color: #f6f7f7;
+  text-shadow: 5px 5px 5px #00143a;
 }
 
 

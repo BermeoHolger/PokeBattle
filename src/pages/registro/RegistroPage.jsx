@@ -2,7 +2,8 @@ import { registrar } from "../../api/api";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import '../../assets/styles/editarUsuario.css';
+import '../../styles/editarUsuario.css';
+import NotiToast from "../../components/NotiToast";
 
 export const RegistroPage = () => {
   const [Nombre, setNombre] = useState('');
@@ -156,12 +157,13 @@ export const RegistroPage = () => {
           </div>
           <button type="submit" className="botonEnviarForm">Registrar</button>
         </div>
-      </form>
-
-      <div className="msj">
-        {datosBack?.status && <p className="formularios">Estado: {datosBack.status}</p>}
-        {datosBack?.error && <p className="formularios">Error: {datosBack.error}</p>}
-      </div>
+      </form>      
+      {datosBack?.status &&         
+        <NotiToast mensaje= {datosBack.status} tipo="exito"/>                   
+      }              
+      {datosBack?.error && 
+        <NotiToast mensaje={datosBack.error}tipo="error"/>
+      }      
     </div>
   );
 };
