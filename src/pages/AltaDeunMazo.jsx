@@ -27,6 +27,8 @@ export const AltaDeunMazo = () => {
     if(!token){
       navigate("/login");
     }
+    handleSubmit();
+
   }, [token,navigate]);
 
 
@@ -103,6 +105,7 @@ export const AltaDeunMazo = () => {
         }
         else{
           setDatos('Mazo Creado Correctamente'); 
+          setcartasElegidas([]);
           setMazo(prev => ({
             ...prev,
             nombre: ""
