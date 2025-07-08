@@ -112,6 +112,7 @@ export const EditarUsuario = () => {
           setPassword("");
           setPassConfirm("");
         }
+        setTimeout(() => setDatosBack(""), 3000);
           
       } catch (err) {
         if (err.response && err.response.data) {
@@ -119,6 +120,7 @@ export const EditarUsuario = () => {
         } else {
           setDatosBack({ error: 'Error desconocido' });
         }
+        setTimeout(() => setDatosBack(""), 3000); 
       }
     };
 
@@ -163,10 +165,10 @@ export const EditarUsuario = () => {
           </form>  
         </div>        
         {datosback?.estado && 
-        <NotiToast mensaje={datosback.estado} tipo="exito"/>
+          <NotiToast mensaje={datosback.estado} tipo="exito"/>
         }
         {datosback?.error && 
-        <NotiToast mensaje={datosback.error} tipo="error"/>
+          <NotiToast mensaje={datosback.error} tipo="error"/>
         }        
       </div>
   )

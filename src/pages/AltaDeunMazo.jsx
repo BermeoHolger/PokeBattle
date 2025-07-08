@@ -73,6 +73,7 @@ export const AltaDeunMazo = () => {
       } else {
         setError({ error: 'Error desconocido' });
       }
+      setTimeout(() => setError(null), 3000);
     }
   }
 
@@ -110,9 +111,11 @@ export const AltaDeunMazo = () => {
         const response = await altaMazo(mazoParaEnviar); 
         if(response.error){
           setError(response);
+          setTimeout(() => setError(null), 3000);
         }
         else{
           setDatos('Mazo Creado Correctamente'); 
+          setTimeout(() => setDatos(null), 3000);
           setcartasElegidas([]);
           setMazo(prev => ({
             ...prev,
@@ -125,6 +128,7 @@ export const AltaDeunMazo = () => {
       }
       else  
         setError({error: 'El Mazo Debe Tener Nombre'})
+      setTimeout(() => setError(null), 3000);
     } 
     catch (err) {
       if (err.response && err.response.data) {
@@ -132,6 +136,7 @@ export const AltaDeunMazo = () => {
       } else {
         setError({ error: 'Error desconocido' });
       }
+      setTimeout(() => setError(null), 3000);
     }
   }
 

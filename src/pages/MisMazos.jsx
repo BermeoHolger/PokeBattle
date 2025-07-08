@@ -35,6 +35,7 @@ export const MisMazos = () => {
         }
       } catch (err) {
         setError(err.response.data.error);
+        setTimeout(() => setError(null), 3000);
       }
     };
   
@@ -82,11 +83,11 @@ export const MisMazos = () => {
 
       if (error.response && error.response.data && error.response.data.error) {
         setMensajeErrorEliminacion(error.response.data.error);
-        
       } else {
         console.log("Error desconocido");
         setMensajeErrorEliminacion("No se pudo eliminar el mazo.");
       }
+      setTimeout(() => setMensajeErrorEliminacion(null), 3000)
       setError(error.response.data.error);
       setTimeout(() => setError(null), 3000)
     };

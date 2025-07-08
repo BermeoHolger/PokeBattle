@@ -174,8 +174,8 @@ export const Jugar = () => {
     ): (
       error? (
         <div className='eliminarPartida'>
-        <NotiToast mensaje={error.error} tipo="error"/>
-        <button  className="boton-eliminarPartida"  onClick={eliminarPartidaEmpezada}> Eliminar Partida Empezada </button>
+          <NotiToast mensaje={error.error} tipo="error"/>
+          <button  className="boton-eliminarPartida"  onClick={eliminarPartidaEmpezada}> Eliminar Partida Empezada </button>
         </div>
       ):(
         <div className='PagJugar'> 

@@ -6,7 +6,6 @@ const [mostrarNoti, setMostrarNoti] = useState(true);
 
 useEffect(()=>{
     setMostrarNoti(true);
-    setTimeout(() => setMostrarNoti(false), 3000); 
 },[mensaje]);
 
     return (

@@ -40,13 +40,15 @@ export const Login = ({setIsLoggedIn}) => {
         formData.usuario="";
         formData.password="";
       }
+      setTimeout(() => setDatos(null), 3000);
       setIsLoggedIn(true);
     } catch (err) {
       if (err.response && err.response.data) {
         setDatos(err.response.data);  
-    } else {
+      } else {
         setDatos({ error: 'Error desconocido' });  
-    }
+      }
+      setTimeout(() => setDatos(null), 3000);
     }
   };
   return (
