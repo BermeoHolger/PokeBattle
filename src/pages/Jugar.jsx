@@ -5,6 +5,7 @@ import { comenzarPartida, eliminarPartida, recuperarMazos, obtenerAtributosCarta
 import { jwtDecode } from 'jwt-decode';
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import NotiToast from '../components/NotiToast';
 
 export const Jugar = () => {
   const [estadofondo, setEstadoFondo] = useState(false);
@@ -167,11 +168,13 @@ export const Jugar = () => {
 
   return (
     mazos.error? (
-      <div className='eliminarPartida'><p className='msj-Error'>{mazos.error}</p></div>
+      <div className='eliminarPartida'>
+        <NotiToast mensaje={mazos.error} tipo="error"/>
+      </div>
     ): (
       error? (
         <div className='eliminarPartida'>
-        <p className='msj-Error'>{error.error}</p>
+        <NotiToast mensaje={error.error} tipo="error"/>
         <button  className="boton-eliminarPartida"  onClick={eliminarPartidaEmpezada}> Eliminar Partida Empezada </button>
         </div>
       ):(

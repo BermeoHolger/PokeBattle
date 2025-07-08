@@ -223,7 +223,7 @@ export const AltaDeunMazo = () => {
       <NotiToast mensaje={JSON.stringify(error.error)} tipo="error"/>
       }
       {datos && 
-      <NotiToast mensaje= {JSON.stringify(datos)} tipo="exito" />
+      <NotiToast mensaje= {datos} tipo="exito" />
       }      
 
     </div>
