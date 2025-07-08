@@ -138,6 +138,8 @@ export const MisMazos = () => {
     <div className="mazosTotal">
       <h2 className = "titulo">Tus Mazos</h2>
 
+      
+      
         {error && <NotiToast mensaje = {error} tipo="error"/>}
         {mensajeErrorEliminacion && (
           <NotiToast mensaje = {mensajeErrorEliminacion} tipo="error" />
@@ -153,6 +155,7 @@ export const MisMazos = () => {
 
       ):( 
       <div>
+       
         <div className="mazos"> 
           {mazos.map((mazoActual, index) => (  
             <div key={index}> 

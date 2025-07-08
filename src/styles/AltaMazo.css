@@ -102,7 +102,6 @@ input[type="submit"]:hover{
     min-width: 500px;
     width: 100%;
     overflow-y: auto;
-    border: 2px solid white;
     display: block;
     margin: 1vw;
     border-radius: .5vw;
@@ -121,7 +120,7 @@ input[type="submit"]:hover{
 }
 .tablatotal td {
   border-collapse: collapse;
-  padding: 1vw 2.74vw;
+  padding: 1vw 2.7vw;
   text-align: center;
   vertical-align: middle;
   background-color: #07193b;

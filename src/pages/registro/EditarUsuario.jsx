@@ -1,4 +1,4 @@
-import { editarusuario } from "../../api/api";
+import { editarusuario } from "../../services/UsuarioLinkedServices";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";

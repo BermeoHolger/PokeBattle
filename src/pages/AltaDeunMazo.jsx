@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { cartas } from "./../api/api";
-import { altaMazo } from "./../api/api";
+import { cartas,altaMazo } from "../services/AltaDeunMazoServices";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import '../styles/AltaMazo.css';
@@ -27,7 +26,18 @@ export const AltaDeunMazo = () => {
     if(!token){
       navigate("/login");
     }
+    
   }, [token,navigate]);
+
+  useEffect(() => {
+  const obtenerCartasIniciales = async () => {
+      const response = await cartas({ nombre: "", atributo: "" });
+      setDatosCartas(response);
+
+  };
+
+    obtenerCartasIniciales();
+  }, []);
 
 
   const handleChangeCarta = (e) => {
@@ -103,6 +113,7 @@ export const AltaDeunMazo = () => {
         }
         else{
           setDatos('Mazo Creado Correctamente'); 
+          setcartasElegidas([]);
           setMazo(prev => ({
             ...prev,
             nombre: ""
@@ -212,7 +223,7 @@ export const AltaDeunMazo = () => {
       <NotiToast mensaje={JSON.stringify(error.error)} tipo="error"/>
       }
       {datos && 
-      <NotiToast mensaje= {JSON.stringify(datos)} tipo="exito" />
+      <NotiToast mensaje= {datos} tipo="exito" />
       }      
 
     </div>
