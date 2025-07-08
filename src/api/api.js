@@ -98,7 +98,6 @@ export const editarusuario = async (nuevosDatos,usuario) => {
     );    
     return response;
   }catch (error) {
-    console.error('Error al Editar Usuario:', error);
 
     throw error;
   }
@@ -115,8 +114,7 @@ export const recuperarMazos = async (id_user) => {
       }
     );
     return response;
-  } catch (error) {
-    console.error('Error al obtener los mazos:', error);
+  } catch (error) {    
     throw error;
   }
 };
@@ -213,9 +211,7 @@ export const getUsuario = async (id) => {
       return response; 
     }
     catch (error) {
-      
-      console.error('Error al borrar el mazo');
-      console.log ("el error es: ", error);
+        
       throw error;
      
     }
@@ -232,7 +228,7 @@ export const editarMazo = async (mazo_id, data) => {
     return response;
   }
   catch (error){
-    console.error('Error al editar el nombre del mazo', error);
+    
     throw error;
   }
 };

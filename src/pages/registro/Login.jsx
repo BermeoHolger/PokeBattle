@@ -2,7 +2,8 @@ import { login } from "../../api/api";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import '../../assets/styles/editarUsuario.css';
+import '../../styles/editarUsuario.css';
+import NotiToast from "../../components/NotiToast";
 
 
 export const Login = ({setIsLoggedIn}) => {
@@ -50,7 +51,7 @@ export const Login = ({setIsLoggedIn}) => {
   };
   return (
     <div className="totalLogin">
-      <form onSubmit={handleSubmit} className="forma">
+      <form onSubmit={handleSubmit} className="forma" autoComplete="on">
         <div className="barra">
           <p>Usuario:</p> 
           <input type="text" name="usuario" onChange={handleChange} value={formData.usuario}/>
@@ -62,14 +63,12 @@ export const Login = ({setIsLoggedIn}) => {
         <button type="submit" className="botonEnviarForm" onChange={handleSubmit}>Enviar</button>
       </form>
 
-      <div className="msj">
-        {datos?.status &&(
-          <p>Status = {datos.status}</p>
-        )}
-        {datos?.error && (
-          <p>Error = {datos.error}</p>
-        )}
-      </div>
+        {datos?.status &&
+          <NotiToast mensaje= {datos.status} tipo="exito"/> 
+        }
+        {datos?.error && 
+          <NotiToast mensaje= {datos.error} tipo="error"/> 
+        }      
     </div>
       
   )

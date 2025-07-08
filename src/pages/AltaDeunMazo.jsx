@@ -3,7 +3,8 @@ import { cartas } from "./../api/api";
 import { altaMazo } from "./../api/api";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import '../assets/styles/AltaMazo.css';
+import '../styles/AltaMazo.css';
+import NotiToast from "../components/NotiToast";
 
 
 export const AltaDeunMazo = () => {
@@ -206,10 +207,14 @@ export const AltaDeunMazo = () => {
         
       }
       </div>
-      <div className="mensajes">
-        {error && <div>{JSON.stringify(error.error)}</div>}
-        {datos && <div>{JSON.stringify(datos)}</div>}
-      </div>
+      
+      {error && 
+      <NotiToast mensaje={JSON.stringify(error.error)} tipo="error"/>
+      }
+      {datos && 
+      <NotiToast mensaje= {JSON.stringify(datos)} tipo="exito" />
+      }      
+
     </div>
   )
 } 

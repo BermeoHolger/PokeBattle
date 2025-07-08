@@ -5,7 +5,7 @@ import { editarMazo } from "../api/api";
 import React, { useEffect, useState } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import { useNavigate } from "react-router-dom";
-import '../assets/styles/misMazos.css'
+import '../styles/misMazos.css'
 
 export const MisMazos = () => {
   let navigate = useNavigate();

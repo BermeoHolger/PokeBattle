@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { getEstadisticas } from '../../api/api';
-import '../../assets/styles/statpage.css';
+import '../../styles/statpage.css';
 
 export const StatPages = () => {
   const [datos, setDatos] = useState([]);
