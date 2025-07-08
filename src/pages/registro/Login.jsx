@@ -1,4 +1,4 @@
-import { login } from "../../api/api";
+import { login } from "../../services/UsuarioLinkedServices";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -31,7 +31,7 @@ export const Login = ({setIsLoggedIn}) => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); // evita que se recargue la página
+    e.preventDefault(); 
     try {
       const response = await login(formData); 
       setDatos(response.data);
@@ -43,9 +43,9 @@ export const Login = ({setIsLoggedIn}) => {
       setIsLoggedIn(true);
     } catch (err) {
       if (err.response && err.response.data) {
-        setDatos(err.response.data);  // Caso error: setea el error que viene del backend
+        setDatos(err.response.data);  
     } else {
-        setDatos({ error: 'Error desconocido' });  // Por si no viene nada
+        setDatos({ error: 'Error desconocido' });  
     }
     }
   };

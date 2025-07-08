@@ -1,7 +1,4 @@
-import { recuperarMazos } from "../api/api";
-import { getCartasMazo } from "../api/api";
-import { eliminarMazo } from "../api/api";
-import { editarMazo } from "../api/api";
+import { recuperarMazos, getCartasMazo, eliminarMazo, editarMazo } from "../services/MisMazosServices";
 import React, { useEffect, useState } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import { useNavigate } from "react-router-dom";
@@ -15,9 +12,7 @@ export const MisMazos = () => {
   const [error, setError] = useState (null);
   const [editarM, setEditarM] = useState(null); 
   const [mensajeEdicion, setMensajeEdicion] = useState(null);
-  const [formData, setFormData] = useState({
-  nombre: ''
-  });
+  const [formData, setFormData] = useState({nombre: ''});
   const [mensajeErrorEliminacion, setMensajeErrorEliminacion] = useState(null);
   const [mensajeMazoEliminado, setMensajeMazoEliminado] = useState(null);
   const [mazos, setMazos] = useState([]);
@@ -96,6 +91,7 @@ export const MisMazos = () => {
       setTimeout(() => setError(null), 3000)
     };
   }
+
   const editarMazoHandler  = (id_mazo, nombre_mazo) => {
     
     setFormData( {"nombre":nombre_mazo} );
@@ -160,9 +156,6 @@ export const MisMazos = () => {
       ):( 
       <div>
        
-
-        
-
         <div className="mazos"> 
           {mazos.map((mazoActual, index) => (  
             <div key={index}> 
