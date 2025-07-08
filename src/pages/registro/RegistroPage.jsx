@@ -112,13 +112,14 @@ export const RegistroPage = () => {
         setUsuario("");
         setPassword("");
       }
-        
+      setTimeout(() => setDatosBack(null), 3000); 
     } catch (err) {
       if (err.response && err.response.data) {
         setDatosBack(err.response.data);
       } else {
         setDatosBack({ error: 'Error desconocido' });
       }
+      setTimeout(() => setDatosBack(null), 3000); 
     }
   };
 
