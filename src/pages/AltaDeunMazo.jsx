@@ -26,7 +26,18 @@ export const AltaDeunMazo = () => {
     if(!token){
       navigate("/login");
     }
+    
   }, [token,navigate]);
+
+  useEffect(() => {
+  const obtenerCartasIniciales = async () => {
+      const response = await cartas({ nombre: "", atributo: "" });
+      setDatosCartas(response);
+
+  };
+
+    obtenerCartasIniciales();
+  }, []);
 
 
   const handleChangeCarta = (e) => {
@@ -102,6 +113,7 @@ export const AltaDeunMazo = () => {
         }
         else{
           setDatos('Mazo Creado Correctamente'); 
+          setcartasElegidas([]);
           setMazo(prev => ({
             ...prev,
             nombre: ""

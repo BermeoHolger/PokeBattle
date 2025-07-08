@@ -10,7 +10,7 @@
     max-height: 50vh;
     width: 100%;
     overflow-y: auto;
-    overflow-x: hidden;
+    overflow-x: auto;
     border: 1px solid white;
     display: block;
     margin: 1vw;
@@ -22,11 +22,11 @@
 .tablaS{
     border-collapse: collapse;
     width: 100%;
-    background-color: #290945d2;
+    background-color: rgb(11, 9, 33)
 }
 
 .items-maximo{
-    background-color: rgb(6, 3, 35);
+    background-color: rgb(13, 13, 50);
 }
 
 .items{
@@ -42,7 +42,7 @@
 }
 
 .tablaStats td, th{
-    padding: 1vw 1.78vw;
+    padding: 1vw 1.838vw;
     font-weight: 700;
     border:2px solid rgb(154, 154, 154);
     text-align: center;
