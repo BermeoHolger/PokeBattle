@@ -40,6 +40,7 @@ export const StatPages = () => {
   });
 
   return (
+    !datos ? (<h1>No Hay Estadisticas</h1>):(
     <div>
       <div className='estadisticas'>
         <h2>Estadísticas</h2>
@@ -82,6 +83,7 @@ export const StatPages = () => {
         )}
       </div>
     </div>
+    )
   );
 };
 

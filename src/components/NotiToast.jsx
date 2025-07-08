@@ -7,7 +7,8 @@ const [mostrarNoti, setMostrarNoti] = useState(true);
 useEffect(()=>{
     setMostrarNoti(true);
     setTimeout(() => setMostrarNoti(false), 3000); 
-},[mensaje]);
+},[!mostrarNoti]);
+
     return (
         <div>
         {mostrarNoti?(
@@ -15,7 +16,6 @@ useEffect(()=>{
                 <div className={tipo==="exito" ? "toast": "toast-error"}>
                     <p className='texto-notificacion'>{mensaje}</p>
                 </div>
-
             </div>)
         :(<></>)
         }

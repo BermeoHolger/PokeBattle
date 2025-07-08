@@ -13,7 +13,7 @@ export const MisMazos = () => {
   
   const token = sessionStorage.getItem('Token');
   const [error, setError] = useState (null);
-  const [editarM, setEditarM] = useState(null); //va a guardar el id del mazo a editar
+  const [editarM, setEditarM] = useState(null); 
   const [mensajeEdicion, setMensajeEdicion] = useState(null);
   const [formData, setFormData] = useState({
   nombre: ''
@@ -23,7 +23,6 @@ export const MisMazos = () => {
   const [mazos, setMazos] = useState([]);
   const atributos = {1: 'Fuego',2: 'Agua',3: 'Tierra',4: 'Normal',5: 'Volador',6: 'Piedra',7: 'Planta'};
 
-  //----- TRAER MAZOS
   const traerMazos = async () => {
       try {
         let datos = null;
@@ -45,17 +44,16 @@ export const MisMazos = () => {
     };
   
   useEffect(() => {
-    traerMazos(); //llama a la función y trae los mazos cuando se abre la página
+    traerMazos(); 
   }, []);
 
-  //----- TRAER Y MOSTRAR CARTAS
-  const [mazoVisible, setMazoVisible] = useState(null); //seteo el estado de mazoVisible en null
+  const [mazoVisible, setMazoVisible] = useState(null); 
   const [cartas, setCartas] = useState([]);
   
   const mostrarCartas = async (index, mazo_id) => {
     try {
       const response = await getCartasMazo(mazo_id);
-      setMazoVisible(mazoVisible === index ? null : index); //seteo el mazoVisible para q se muestre 
+      setMazoVisible(mazoVisible === index ? null : index); 
       
       if (response.status === 200){
         setCartas(response.data); 
@@ -71,40 +69,39 @@ export const MisMazos = () => {
       console.error (error);
     }
   }
-
-  //----- ELIMINAR MAZO
   
   const eliminarMazoHandler = async (id_mazo) => {
     try {
       const confirmacion = window.confirm("¿Estás seguro que querés eliminar el Mazo?");
-      if (!confirmacion) return; // Si el usuario cancela, no se hace nada
+      if (!confirmacion) return; 
       const response = await eliminarMazo(id_mazo);
 
-      // Si se elimina correctamente, vuelvo a cargar los mazos
       if (response.status === 200) {
-        const msjEliminado = response; //accede a data, si existe asigna el msj
+        const msjEliminado = response; 
         setMensajeMazoEliminado(msjEliminado.data.status);
         setTimeout(() => setMensajeMazoEliminado(null), 3000);
         setMazos(prevMazos => prevMazos.filter(mazo => mazo.id !== id_mazo));
       }
       
     } catch (error) {
-      console.log("Error al borrar el mazo:", error);
 
       if (error.response && error.response.data && error.response.data.error) {
-        console.log("El mensaje del backend es:", error.response.data.error);
         setMensajeErrorEliminacion(error.response.data.error);
-        //setTimeout(() => setMensajeErrorEliminacion(null), 3000);
+        
       } else {
         console.log("Error desconocido");
         setMensajeErrorEliminacion("No se pudo eliminar el mazo.");
-        //setTimeout(() => setMensajeErrorEliminacion(null), 3000);
       }
-      setError("Error al eliminar el mazo");
+      setError(error.response.data.error);
       setTimeout(() => setError(null), 3000)
     };
   }
-  //----- EDITAR MAZO
+  const editarMazoHandler  = (id_mazo, nombre_mazo) => {
+    
+    setFormData( {"nombre":nombre_mazo} );
+    setEditarM (id_mazo)
+  }
+  
   const handleChange = (e) => {
     setFormData({ 
       ...formData, 
@@ -113,11 +110,7 @@ export const MisMazos = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); // evita que se recargue la pagina
-    //tengo el nuevo nombre en formData.nombre
-
-    const confirmacion = window.confirm("¿Estás seguro que querés cambiar el nombre?");
-    if (!confirmacion) return; // Si el usuario cancela, no se hace nada
+    e.preventDefault(); 
     
     try {
       const response = await editarMazo(editarM, { nombre: formData.nombre }); 
@@ -126,19 +119,20 @@ export const MisMazos = () => {
       setMensajeEdicion(msjEdicion);
       setTimeout(() => setMensajeEdicion(null), 3000); 
       
-      setEditarM(null); //vuelvo a setear en Null por si se quiere editar otro
+      setEditarM(null); 
       if (response.status === 200) {
-        await traerMazos(); // actualiza la lista para q muestre el mazo editado
+        await traerMazos();
       }
 
     } catch (err) {
+      console.log (err);
       setError("Error al editar el nombre del mazo");
       setTimeout(() => setError(null), 3000)
       console.error (error);
     }
   }
 
-  //----- IR A JUGAR CON EL MAZO SELECCIONADO
+  
   const jugarHandler = (id_mazo) => {
     sessionStorage.setItem('Mazo', id_mazo);
     navigate("/jugar");
@@ -148,7 +142,7 @@ export const MisMazos = () => {
     <div className="mazosTotal">
       <h2 className = "titulo">Tus Mazos</h2>
 
-      {/*----- si tengo msjes de eliminación*/}
+      
       
         {error && <NotiToast mensaje = {error} tipo="error"/>}
         {mensajeErrorEliminacion && (
@@ -158,38 +152,19 @@ export const MisMazos = () => {
           <NotiToast mensaje = {mensajeMazoEliminado} tipo="exito" />
         )}
       
-      {mazos.length === 0 ? ( //Si no hay mazos 
+      {mazos.length === 0 ? ( 
         <div className="noHayMazos">
         <button className="botonCrear" onClick={() => {navigate("/alta");}}> Crear mazo </button>
         </div>
 
-      ):( /*----- Si tengo msjes de error -----*/
+      ):( 
       <div>
        
 
-        {/*----- Si se quiere editar un mazo*/}
-        {editarM && (
-          <div >
-            <form onSubmit={handleSubmit}className="editar">
-              <p>Nuevo Nombre:</p>
-              <button className="botonCancelar" onClick={() => setEditarM (null)}>Cancelar edicion</button>
-               <input
-                type="text"
-                name="nombre"  
-                onChange={handleChange}
-                value={formData.nombre}
-                />
-                <input type="submit" value="Editar"/>
-              
-            </form>
-            <p>
-             {mensajeEdicion}
-            </p>
-          </div>
-        )}
+        
 
         <div className="mazos"> 
-          {mazos.map((mazoActual, index) => ( //Muestro todos los mazos 
+          {mazos.map((mazoActual, index) => (  
             <div key={index}> 
               <div key={index}>
                 <div className="opcionesMazo">
@@ -198,12 +173,30 @@ export const MisMazos = () => {
                     {mazoVisible === index ? "Ocultar mazo" : "Ver mazo"}
                   </button>
                   <button className="botonEliminarMazo" onClick={() => eliminarMazoHandler(mazoActual.id)}>Eliminar mazo</button>
-                  <button onClick={() => setEditarM (mazoActual.id)}>Editar mazo</button>
+                  <button onClick={() => editarMazoHandler (mazoActual.id, mazoActual.nombre)}>Editar mazo</button>
                   <button className="botonJugar" onClick={() => jugarHandler(mazoActual.id)}>Jugar con este mazo!</button>
+                  {editarM == mazoActual.id && (
+                      <div >
+                        <form onSubmit={handleSubmit}className="editar">
+                          <p>Nuevo Nombre:</p>
+                          <button className="botonCancelar" onClick={() => setEditarM (null)}>Cancelar edicion</button>
+                          <input
+                            type="text"
+                            name="nombre"
+                            onChange={handleChange}
+                            value={formData.nombre}
+                            />
+                            <input type="submit" value="Editar"/>
+                          
+                        </form>
+                        <p>
+                        {mensajeEdicion}
+                        </p>
+                      </div>
+                    )}
                 </div> 
               </div>
               
-              {/* Mostrar cartas si el mazo está seleccionado */}
               {mazoVisible === index && 
               <div className="mazo">
                 <table className="tablatotal">
@@ -228,7 +221,7 @@ export const MisMazos = () => {
                 </table>
               </div>
             }
-            </div> //el .map de mazos termina en la llave de abajo
+            </div>
           ))}
           {mazos.length < 3 && (
             <div className="mazosExtra">
