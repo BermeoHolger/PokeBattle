@@ -1,7 +1,4 @@
-import { recuperarMazos } from "../api/api";
-import { getCartasMazo } from "../api/api";
-import { eliminarMazo } from "../api/api";
-import { editarMazo } from "../api/api";
+import { recuperarMazos, getCartasMazo, eliminarMazo, editarMazo } from "../services/MisMazosServices";
 import React, { useEffect, useState } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import { useNavigate } from "react-router-dom";
@@ -12,16 +9,13 @@ export const MisMazos = () => {
   
   const token = sessionStorage.getItem('Token');
   const [error, setError] = useState (null);
-  const [editarM, setEditarM] = useState(null); //va a guardar el id del mazo a editar
+  const [editarM, setEditarM] = useState(null); 
   const [mensajeEdicion, setMensajeEdicion] = useState(null);
-  const [formData, setFormData] = useState({
-  nombre: ''
-  });
+  const [formData, setFormData] = useState({nombre: ''});
   const [mensajeEliminacion, setMensajeEliminacion] = useState(null);
   const [mazos, setMazos] = useState([]);
   const atributos = {1: 'Fuego',2: 'Agua',3: 'Tierra',4: 'Normal',5: 'Volador',6: 'Piedra',7: 'Planta'};
 
-  //----- TRAER MAZOS
   const traerMazos = async () => {
       try {
         let datos = null;
@@ -44,17 +38,17 @@ export const MisMazos = () => {
     };
   
   useEffect(() => {
-    traerMazos(); //llama a la función y trae los mazos cuando se abre la página
+    traerMazos();
   }, []);
 
-  //----- TRAER Y MOSTRAR CARTAS
-  const [mazoVisible, setMazoVisible] = useState(null); //seteo el estado de mazoVisible en null
+
+  const [mazoVisible, setMazoVisible] = useState(null); 
   const [cartas, setCartas] = useState([]);
   
   const mostrarCartas = async (index, mazo_id) => {
     try {
       const response = await getCartasMazo(mazo_id);
-      setMazoVisible(mazoVisible === index ? null : index); //seteo el mazoVisible para q se muestre 
+      setMazoVisible(mazoVisible === index ? null : index); 
       
       if (response.status === 200){
         setCartas(response.data); 
@@ -70,16 +64,13 @@ export const MisMazos = () => {
       console.error (error);
     }
   }
-
-  //----- ELIMINAR MAZO
   
   const eliminarMazoHandler = async (id_mazo) => {
     try {
       const confirmacion = window.confirm("¿Estás seguro que querés eliminar el Mazo?");
-      if (!confirmacion) return; // Si el usuario cancela, no se hace nada
+      if (!confirmacion) return;
       const response = await eliminarMazo(id_mazo);
-
-      // Si se elimina correctamente, vuelvo a cargar los mazos
+      
       if (response.status === 200) {
         const msjEliminado = response; //accede a data, si existe asigna el msj
         setMensajeEliminacion(msjEliminado.data.status);

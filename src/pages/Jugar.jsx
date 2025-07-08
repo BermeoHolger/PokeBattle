@@ -1,7 +1,7 @@
 
 import '../styles/jugar.css'
 import { use, useState } from 'react'
-import { comenzarPartida, eliminarPartida, recuperarMazos, obtenerAtributosCartas, mandarJugada, getCartasMazo } from '../api/api';
+import { comenzarPartida, eliminarPartida, recuperarMazos, obtenerAtributosCartas, mandarJugada, getCartasMazo } from '../services/JugarServices';
 import { jwtDecode } from 'jwt-decode';
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -57,9 +57,9 @@ export const Jugar = () => {
           }        
         } catch (err) {
           if (err.response && err.response.data) {
-            setMazos(err.response.data);  // Caso error: setea el error que viene del backend
+            setMazos(err.response.data); 
           } else {
-            setMazos('Error desconocido');  // Por si no viene nada
+            setMazos('Error desconocido'); 
           }
         }
     }
@@ -95,16 +95,16 @@ export const Jugar = () => {
         }else{
           setCartas([]);
         }
-        const response2 = await obtenerAtributosCartas(1,response.data.id_partida); //obtengo los atributos de las cartas del server       
+        const response2 = await obtenerAtributosCartas(1,response.data.id_partida);     
         setCartasServer(Object.entries(response2.data));
         console.log(response2.data);
     } catch (err) {
        if (err.response && err.response.data) {
           console.log(err.response.data);
-          setError(err.response.data);  // Caso error: setea el error que viene del backend
+          setError(err.response.data); 
           console.log(error);
         } else {
-          setError('Error desconocido');  // Por si no viene nada
+          setError('Error desconocido');  
         }
     }
   }
@@ -127,7 +127,7 @@ export const Jugar = () => {
       }
       const response = await mandarJugada(data);
       const info = response.data;     
-      if(Array.isArray(info) ){ //este if consulta si es la ultima jugada porque en la ultima jugada el backend cambia la respuesta a un array de dos objetos [0]y[1] para mandar el resultado de la partida
+      if(Array.isArray(info) ){
         setOcultasServer([...ocultasServer, info[0].carta_server]);
         setUltimaCartaServ(cartasServerTotal.find(objeto => objeto.id === info[0].carta_server));
         if(info[0].resultado.ataque_server > info[0].resultado.ataque_user){
@@ -137,7 +137,7 @@ export const Jugar = () => {
           } else{
               setResultadoJugada('Empate! :| ');
             }
-        setResultadoJugada(prev=>prev + '  Esa fue la ultima jugada asi que el resultado de la partida es que el usuario ⇾ ' +info[1].el_usuario );
+        setResultadoJugada(prev=>prev + '  Esa fue la ultima jugada! Asi que el resultado de la partida es: el usuario ⇾ ' +info[1].el_usuario );
         setPlayAgainButton(true);
       }else{
         setOcultasServer([...ocultasServer, info.carta_server]);
@@ -154,9 +154,9 @@ export const Jugar = () => {
     }catch(err) {
 
       if (err.response && err.response.data) {
-          setError(err.response.data);  // Caso error: setea el error que viene del backend
+          setError(err.response.data);  
         } else {
-          setError('Error desconocido');  // Por si no viene nada
+          setError('Error desconocido'); 
         }
     }
   }

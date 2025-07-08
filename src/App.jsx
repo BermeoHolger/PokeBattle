@@ -11,7 +11,7 @@ import "./index.css";
 const App = () => {    
   const [isLoggedIn, setIsLoggedIn] = useState(!!sessionStorage.getItem('Token'));
 
-  useEffect(() => { // Reviso cuando se vence el token
+  useEffect(() => { 
   const intervalo = setInterval(() => {
     const token = sessionStorage.getItem("Token");
     if (token) {
@@ -23,7 +23,7 @@ const App = () => {
         window.location.href = "/login";
       }
     }
-  }, 5000); //checkeo cada 5 segundos
+  }, 5000); 
 
   return () => clearInterval(intervalo); 
   }, []);

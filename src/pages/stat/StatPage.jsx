@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getEstadisticas } from '../../api/api';
+import { getEstadisticas } from '../../services/StatPageServices';
 import '../../styles/statpage.css';
 
 export const StatPages = () => {

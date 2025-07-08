@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { cartas } from "./../api/api";
-import { altaMazo } from "./../api/api";
+import { cartas,altaMazo } from "../services/AltaDeunMazoServices";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import '../styles/AltaMazo.css';

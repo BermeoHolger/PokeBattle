@@ -52,7 +52,7 @@
   border-radius: 1vw
 }
 .tablero{
-  background-image: url('../images/FondoTablero.png');
+  background-image: url('../assets/images/FondoTablero.png');
   background-size: 100% 100%; 
   background-position: center;
   background-repeat: no-repeat;
