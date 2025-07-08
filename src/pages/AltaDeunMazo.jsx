@@ -27,9 +27,18 @@ export const AltaDeunMazo = () => {
     if(!token){
       navigate("/login");
     }
-    handleSubmit();
-
+    
   }, [token,navigate]);
+
+  useEffect(() => {
+  const obtenerCartasIniciales = async () => {
+      const response = await cartas({ nombre: "", atributo: "" });
+      setDatosCartas(response);
+
+  };
+
+    obtenerCartasIniciales();
+  }, []);
 
 
   const handleChangeCarta = (e) => {
