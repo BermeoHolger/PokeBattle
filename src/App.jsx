@@ -1,9 +1,8 @@
-import { useState } from 'react'
+import { useState,useEffect } from 'react'
 import AppRoutes from './routes/AppRoutes.jsx';
 import FooterComponent  from './components/FooterComponent.jsx';
 import HeaderComponent from './components/HeaderComponent.jsx'
 import {NavBarComponent} from './components/NavBarComponent.jsx';
-import { useEffect } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import "./index.css";
 

@@ -8,6 +8,7 @@
     place-content: center;
     text-align: center;
     margin-left: 10vw;
+    margin-top: 15vw;
     gap: 2.5vw;
 }
 
@@ -25,14 +26,16 @@
     display: block;
     top: 100%; 
     left: 0;
-    color: #63000095;
+    color: #7b1010;
     font-weight: 650;
+    text-shadow:0px 0px 1px rgb(119, 115, 115);
 }
 
 
 input{
     width: 20vw;
     height: 20px;
+    border-radius: 10px;
 }
 .msj{
     position: fixed;
@@ -59,4 +62,18 @@ input{
 .botonEnviarForm:hover{
     background-color:  rgb(25, 58, 25);
     cursor: pointer;
+}
+.nombreEnUso{
+    position: fixed;
+    top:23%;
+    left:12.2%
+}
+.passwordEnUso{
+    position: fixed;
+    top:23%;
+    left: 38.2%;
+}
+p{
+    font-weight: 700;
+    font-family:'Nunito', sans-serif; 
 }

@@ -1,6 +1,5 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { cartas,altaMazo } from "../services/AltaDeunMazoServices";
-import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import '../styles/AltaMazo.css';
 import NotiToast from "../components/NotiToast";
@@ -225,7 +224,7 @@ export const AltaDeunMazo = () => {
       </div>
       
       {error && 
-      <NotiToast mensaje={JSON.stringify(error.error)} tipo="error"/>
+      <NotiToast mensaje={error.error} tipo="error"/>
       }
       {datos && 
       <NotiToast mensaje= {datos} tipo="exito" />

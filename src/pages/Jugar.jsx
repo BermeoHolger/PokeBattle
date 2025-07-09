@@ -1,9 +1,8 @@
 
 import '../styles/jugar.css'
-import { use, useState } from 'react'
+import { useState,useEffect } from 'react'
 import { comenzarPartida, eliminarPartida, recuperarMazos, obtenerAtributosCartas, mandarJugada, getCartasMazo } from '../services/JugarServices';
 import { jwtDecode } from 'jwt-decode';
-import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import NotiToast from '../components/NotiToast';
 

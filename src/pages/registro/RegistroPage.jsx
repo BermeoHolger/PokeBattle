@@ -1,6 +1,5 @@
 import { registrar } from "../../services/UsuarioLinkedServices";
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import '../../styles/editarUsuario.css';
 import NotiToast from "../../components/NotiToast";
@@ -15,7 +14,7 @@ export const RegistroPage = () => {
     usuario: [],
     password: []
   });
-
+  const [verclave, setVerClave] = useState(false);
   const token = sessionStorage.getItem('Token');
 
   const navigate = useNavigate();
@@ -149,7 +148,8 @@ export const RegistroPage = () => {
         <div className="barraBoton">
           <div className="barra">
             <p>Password:</p>
-            <input type="password" value={Password} onChange={handleChangePassword} required />
+            <input type={verclave? "text":"password"} value={Password} onChange={handleChangePassword} required />
+            <button type= "button" onClick={()=>setVerClave(!verclave)}>👀</button>
             <div className="msj-condiciones">
               {errores.password.map((e, index) => (
                 <p key={index} className="mensaje-error">{e}</p>

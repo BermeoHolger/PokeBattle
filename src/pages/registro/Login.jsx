@@ -1,6 +1,5 @@
 import { login } from "../../services/UsuarioLinkedServices";
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import '../../styles/editarUsuario.css';
 import NotiToast from "../../components/NotiToast";
@@ -14,6 +13,7 @@ export const Login = ({setIsLoggedIn}) => {
   
   const [datos, setDatos] = useState(null);
   const token = sessionStorage.getItem('Token');
+  const[verclave,setVerClave] = useState(false);
 
   const navigate = useNavigate();
   useEffect (() => {
@@ -60,7 +60,8 @@ export const Login = ({setIsLoggedIn}) => {
         </div>
         <div className="barra">
           <p>Password:</p> 
-          <input type="password" name="password" onChange={handleChange} value={formData.password}/>
+          <input type={verclave? "text":"password"} name="password" onChange={handleChange} value={formData.password}/>
+          <button type= "button" onClick={()=> setVerClave(!verclave)}>👀</button>
         </div>
         <button type="submit" className="botonEnviarForm" onChange={handleSubmit}>Enviar</button>
       </form>
