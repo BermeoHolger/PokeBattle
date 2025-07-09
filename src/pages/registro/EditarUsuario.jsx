@@ -1,6 +1,5 @@
-import { editarusuario } from "../../services/UsuarioLinkedServices";
-import { useState } from "react";
-import { useEffect } from "react";
+import { editarusuario, getUsuario } from "../../services/UsuarioLinkedServices";
+import { useState,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import '../../styles/editarUsuario.css'
 import { jwtDecode } from 'jwt-decode';
@@ -18,6 +17,9 @@ export const EditarUsuario = () => {
     passConfirm: [],
   });
   const token = sessionStorage.getItem('Token');
+  const [NombreAnterior, setNombreAnterior] = useState('');
+  const [passWordAnterior, setPasswordAnterior] = useState('');
+  const [verclave, setVerClave] = useState(false);
 
   const navigate = useNavigate();
   useEffect (() => {
@@ -122,8 +124,23 @@ export const EditarUsuario = () => {
         }
         setTimeout(() => setDatosBack(""), 3000); 
       }
-    };
+  };
 
+  useEffect(()=> {
+    let datos = jwtDecode(token);
+    const id_user = datos.usuario;
+    const traerDatos = async ()=>{
+      try{
+        const datos = await getUsuario(id_user);
+        setNombreAnterior(datos.nombre);
+        setPasswordAnterior(datos.password);
+      }catch (err){
+        throw err;
+      }
+    }
+    traerDatos();
+    }
+    ,[datosback]);
 
   return (
       <div>
@@ -136,33 +153,46 @@ export const EditarUsuario = () => {
                 {errores.nombre.map((e, index) => (
                   <p key={index} className="mensaje-error">{e}</p>
                 ))}
-              </div>
+              </div>              
             </div>
 
             <div className="barra">
               <p>Nueva Password:</p>
-              <input type="password" value={Password} onChange={handleChangePassword} required />
+              <input type={verclave? "text": "password"} value={Password} onChange={handleChangePassword} required/>
+              <button type= "button" onClick={()=>setVerClave(!verclave)}>👀</button>                          
               <div className="msj-condiciones">
                 {errores.password.map((e, index) => (
                   <p key={index} className="mensaje-error">{e}</p>
                 ))}
-              </div>
-            </div>
+              </div>              
+            </div>                          
 
-          <div className="barraBoton">
-            <div className="barra">
-              <p>Confirmar nueva Password:  </p>
-              <input type="password" value={PassConfirm} onChange={handleChangePassConfirm} required />
-              <div className="msj-condiciones">
-                {errores.passConfirm.map((e, index) => (
-                  <p key={index} className="mensaje-error">{e}</p>
-                ))}
-              </div>
+            <div className="barraBoton">
+              <div className="barra">
+                <p>Confirmar nueva Password:  </p>
+                <input type={verclave? "text": "password"} value={PassConfirm} onChange={handleChangePassConfirm} required />
+                <button type= "button" onClick={()=>setVerClave(!verclave)} >👀</button>  
+                <div className="msj-condiciones">
+                  {errores.passConfirm.map((e, index) => (
+                    <p key={index} className="mensaje-error">{e}</p>
+                  ))}
+                </div>
             </div>
         
             <button type="submit" className="botonEnviarForm">Actualizar</button>
             </div>
-          </form>  
+          </form> 
+
+          <div className="nombreEnUso">
+            <p>En uso:</p>
+            <input disabled type="text" value={NombreAnterior} />                
+          </div>
+
+          <div className="passwordEnUso">
+              <p>En uso:</p>
+              <input disabled type={verclave? "text":"password"} value={passWordAnterior} />
+              <button type= "button" onClick={()=>setVerClave(!verclave)} >👀</button>  
+            </div> 
         </div>        
         {datosback?.estado && 
           <NotiToast mensaje={datosback.estado} tipo="exito"/>

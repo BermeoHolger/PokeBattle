@@ -1,5 +1,5 @@
 import { recuperarMazos, getCartasMazo, eliminarMazo, editarMazo } from "../services/MisMazosServices";
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import { useNavigate } from "react-router-dom";
 import '../styles/misMazos.css'
