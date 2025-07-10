@@ -25,9 +25,11 @@ export const Jugar = () => {
   const [ultimaCartaServ, setUltimaCartaServ] = useState(null); 
   const navigate = useNavigate();
   const atributos = {1: 'Fuego',2: 'Agua',3: 'Tierra',4: 'Normal',5: 'Volador',6: 'Piedra',7: 'Planta'};
-  let token = sessionStorage.getItem("Token");
-  let datos = null;
-  let id_user = null;
+  const [continarPartida, setContinuarPartida]=useState(false);
+  const [dataEnCurso, setDataEnCurso]=useState({});
+  const [token, setToken] = useState(sessionStorage.getItem("Token"));
+  const [datos, setDatos] = useState();
+  const [id_user, setId_User] = useState();
   
  
   
@@ -37,18 +39,18 @@ export const Jugar = () => {
       navigate("/login");
     }
     else{
-      datos = jwtDecode(token);
+      setDatos(jwtDecode(token));
     }
-    if (datos) {
-      id_user = datos.usuario;
+    if (token) {
+      setId_User(jwtDecode(token).usuario);
     }
     const fetchDatos = async () => {
       try {
           const responseCartas = await getCartasMazo(1);
           if(responseCartas){
             setCartasServerTotal(responseCartas.data);
-          }
-          const response = await recuperarMazos(id_user,token);
+          }          
+          const response = await recuperarMazos(jwtDecode(token).usuario,token);
           const mazosJsn = response.data;
           if (Array.isArray(mazosJsn)) {
             setMazos(mazosJsn);
@@ -73,6 +75,25 @@ export const Jugar = () => {
     
   }, []);
   
+  const manejarContinuarPartida= ()=>{
+    setEstadoFondo(true);
+    setError(null);
+    setId_Partida(dataEnCurso['id']);
+    setDatos(jwtDecode(token));
+    setId_User(datos.usuario);    
+    if(dataEnCurso['usuario_id'] === id_user){    
+      setContinuarPartida(true);
+      const aux= dataEnCurso['mazo_cartas'];
+      if(Array.isArray(aux)){
+      setCartas(aux);        
+      }
+      const aux2= dataEnCurso['mazo_cartas_server'];      
+      const aux2_transformado = aux2.map(item=>[String(item.id), item.atributo])      
+      if(Array.isArray(aux2_transformado)){
+        setCartasServer(aux2_transformado);
+      }            
+    }        
+  }
 
   const mostrarOcultar = async () => {
     setEstadoFondo(!estadofondo);
@@ -86,23 +107,20 @@ export const Jugar = () => {
       data={id:Number(mazoSeleccionado)}
     }
     try{
-        const response = await comenzarPartida(data,token);
-        console.log(response);
-        const aux = response.data.cartas;        
+        const response = await comenzarPartida(data,token);               
+        const aux = response.data.cartas;          
         setId_Partida(response.data.id_partida);
         if(Array.isArray(aux)){
             setCartas(aux);
         }else{
           setCartas([]);
-        }
-        const response2 = await obtenerAtributosCartas(1,response.data.id_partida);     
-        setCartasServer(Object.entries(response2.data));
-        console.log(response2.data);
+        }        
+        const response2 = await obtenerAtributosCartas(1,response.data.id_partida);         
+        setCartasServer(Object.entries(response2.data));        
     } catch (err) {
-       if (err.response && err.response.data) {
-          console.log(err.response.data);
-          setError(err.response.data); 
-          console.log(error);
+       if (err.response && err.response.data) {                    
+          setError(err.response.data);                    
+          setDataEnCurso(err.response.data.data);          
         } else {
           setError('Error desconocido');  
         }
@@ -172,10 +190,23 @@ export const Jugar = () => {
       </div>
     ): (
       error? (
-        <div className='eliminarPartida'>
+        dataEnCurso['usuario_id'] == id_user?
+        (
+          <div className='eliminarPartida'>
           <NotiToast mensaje={error.error} tipo="error"/>
           <button  className="boton-eliminarPartida"  onClick={eliminarPartidaEmpezada}> Eliminar Partida Empezada </button>
-        </div>
+          {!continarPartida&& 
+            <button className="boton-continuarPartida" onClick={manejarContinuarPartida} > Continuar Partida </button>
+          }
+          </div>
+        )
+        :
+        (
+          <div className='eliminarPartida'>
+            <NotiToast mensaje={error.error} tipo="error"/>
+            <p className='msj-Error'>La partida no te pertenece 😅 <br/> Espera a que el otro usuario termine su partida 🤠 </p>
+          </div>
+        )         
       ):(
         <div className='PagJugar'> 
           {!estadofondo ? (
