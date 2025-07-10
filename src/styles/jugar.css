@@ -234,9 +234,16 @@
   width: 100vw;
 }
 .msj-Error{
-  color: #630000b1;
+  color: #eeeaeaf8;
   font-size: xx-large;
-  font-weight: 800;
+  font-weight: 650;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-shadow:0px 0px 2px #cc126f;
+  box-shadow:1px 1px 15px rgb(24, 2, 13);
+  background: rgb(104, 16, 45);
+  border-radius: 10px;
+  
+
 }
 
 .boton-eliminarPartida{
@@ -247,9 +254,23 @@
   border-radius: 20rem;
   color:#630000e1;
 }
-
+.boton-continuarPartida{
+  width: 250px;
+  font-size: medium;
+  height: 100px;
+  font-weight: 800;
+  border-radius: 20rem;
+  color:rgb(25, 58, 25) 
+}
+.boton-continuarPartida:hover{
+  background-color: rgb(25, 58, 25);
+  color: white;
+  border-radius: 20rem;
+  box-shadow:0px 0px 12px rgba(1, 91, 1, 0.809);
+}
 .boton-eliminarPartida:hover{
   background-color: #630000b2;
   color: white;
   border-radius: 20rem;
+  box-shadow:0px 0px 12px #720101ca;
 }
