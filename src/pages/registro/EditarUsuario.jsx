@@ -27,6 +27,8 @@ export const EditarUsuario = () => {
       navigate("/login");
     }
   }, [token,navigate]);
+  if(!token)
+    return null;
 
   const validarNombre = (nombre) => {
     const errores = [];

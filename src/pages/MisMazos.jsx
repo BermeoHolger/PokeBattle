@@ -37,8 +37,15 @@ export const MisMazos = () => {
         setError(err.response.data.error);
         setTimeout(() => setError(null), 3000);
       }
-    };
+  };
   
+  useEffect(()=>{
+      if(!token){
+        navigate("/login")
+      }
+  }
+  ,[])
+
   useEffect(() => {
     traerMazos(); 
   }, []);
